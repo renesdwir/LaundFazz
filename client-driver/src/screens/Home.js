@@ -1,5 +1,5 @@
 
-import { NativeBaseProvider, Input, Icon, Text, Pressable, Box, VStack, Center, Divider, ScrollView, HStack } from 'native-base'
+import { NativeBaseProvider, Input, Icon, Button, Stack, TextArea, Text, Pressable, Box, VStack, Center, Divider, ScrollView, HStack } from 'native-base'
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 
@@ -16,36 +16,36 @@ function Home({ navigation }) {
                             <Text fontSize={30} fontStyle="italic" mt="5" color="darkBlue.200" > Fazz</Text>
                         </HStack>
                     </Box>
-                    <Input placeholder="Search" alignSelf="center" w="96" top="70" fontSize="2xl" position="absolute" variant="filled" width="100%" borderRadius="5" py="3" px="2" borderWidth="3" borderColor="muted.200" InputLeftElement={<Icon ml="3" size="6" color="muted.500" as={<Ionicons name="ios-search" />} />} />
+                    <Input placeholder="Search ID" alignSelf="center" w="96" top="70" fontSize="2xl" position="absolute" variant="filled" width="100%" borderRadius="5" py="3" px="2" borderWidth="3" borderColor="muted.200" InputLeftElement={<Icon ml="3" size="6" color="muted.500" as={<Ionicons name="ios-search" />} />} />
                 </Box>
 
                 <Center>
-                    <ScrollView maxW="96" h="full" top="12" _contentContainerStyle={{
-                        px: "70px",
+                    <ScrollView maxW="96" h="xl" top="8" _contentContainerStyle={{
+                        px: "100px",
                         mb: "4",
                         minW: "72"
                     }}>
                         <VStack space={4} alignItems="center" safeArea>
                             <Pressable onPress={() => navigation.navigate("Action")}>
-                                <Center w="96" h="32" bg="darkBlue.800" rounded="3xl" shadow={3}>
+                                <Box w="96" h="40" bg="darkBlue.800" rounded="3xl" shadow={3}>
+                                    <Text left="7" mt="3" fontWeight="bold" color="light.50">ID: Transaction#123123123</Text>
+                                    <Divider mt="2"></Divider>
+                                    <HStack left="6" mt="3" >
+                                        <Button size="sm" m="1" variant="outline">
+                                            <Text color="light.50">Pickup : 06/05/2022</Text>
+                                        </Button>
+                                        <Button size="sm" m="1" variant="outline">
+                                            <Text color="light.50">Delivery : 07/05/2022</Text>
+                                        </Button>
+                                    </HStack>
 
-
-
-                                </Center>
-                            </Pressable>
-                            <Pressable onPress={() => navigation.navigate("Action")}>
-                                <Center w="96" h="32" bg="darkBlue.800" rounded="3xl" shadow={3}>
-
-
-
-                                </Center>
-                            </Pressable>
-                            <Pressable onPress={() => navigation.navigate("Action")}>
-                                <Center w="96" h="32" bg="darkBlue.800" rounded="3xl" shadow={3}>
-
-
-
-                                </Center>
+                                    <HStack left="6" mt="3" >
+                                        <Text mt="2" mr="4" fontWeight="bold" color="light.50">Total Price : </Text>
+                                        <Button size="sm" variant="outline">
+                                            <Text fontWeight="bold" color="light.50">Rp 100.000</Text>
+                                        </Button>
+                                    </HStack>
+                                </Box>
                             </Pressable>
                         </VStack>
                     </ScrollView>
