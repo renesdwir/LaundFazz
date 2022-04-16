@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import logo from "../assets/logo.png";
 import { FiMenu, FiX } from "react-icons/fi";
+import { NavLink } from "react-router-dom";
 
 export default function Navbar() {
   let [click, setClick] = useState(false);
@@ -35,16 +36,16 @@ export default function Navbar() {
       >
         <ul>
           <li className="p-5 hover:bg-blue-800">
-            <a href="">Home</a>
+            <NavLink to="/">Home</NavLink>
           </li>
           <li className="p-5 hover:bg-blue-800">
-            <a href="">Form</a>
+            <NavLink to="/form">Form</NavLink>
           </li>
           <li className="p-5 hover:bg-blue-800">
-            <a href="">My History</a>
+            <NavLink to="/myhistory">My History</NavLink>
           </li>
           <li className="p-5 hover:bg-blue-800">
-            <a href="">Login</a>
+            <NavLink to="/login">Login</NavLink>
           </li>
         </ul>
       </div>

@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 
 export default function DetailPage() {
   return (
-    <div className="container mx-auto bg-white pt-[5rem]">
+    <div className="container mx-auto bg-white pt-[5rem] pb-8">
       <Navbar />
       <div className="px-6 mt-3 flex flex-col">
         <h1 className="text-center font-bold text-2xl text-sky-500">

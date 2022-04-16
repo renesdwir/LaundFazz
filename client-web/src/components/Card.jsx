@@ -1,8 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Card({ status }) {
   return (
-    <div className="card flex flex-row justify-between bg-sky-200 p-3 rounded-xl text-lg">
+    <Link
+      to="/detail/1"
+      className="card flex flex-row justify-between bg-sky-200 p-3 rounded-xl text-lg"
+    >
       <div>
         <h1>Transaction Id</h1>
         <p>Date</p>
@@ -26,6 +30,6 @@ export default function Card({ status }) {
           </span>
         )}
       </div>
-    </div>
+    </Link>
   );
 }

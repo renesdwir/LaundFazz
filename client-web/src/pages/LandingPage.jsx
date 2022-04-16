@@ -20,6 +20,7 @@ import { FiLogIn } from "react-icons/fi";
 import Carousel from "../components/Carousel";
 import logo from "../assets/logo.png";
 import Navbar from "../components/Navbar";
+import { Link } from "react-router-dom";
 
 export default function LandingPage() {
   let [click, setClick] = useState(false);
@@ -87,7 +88,7 @@ export default function LandingPage() {
                 vitae
               </p>
               <button className="px-5 py-3 rounded-2xl  bg-sky-500 text-lg  mt-8 hover:bg-blue-800">
-                Get Started
+                <Link to="/form">Get Started</Link>
               </button>
             </div>
           </div>

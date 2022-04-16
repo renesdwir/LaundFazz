@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import { MdOutlineGpsFixed } from "react-icons/md";
 export default function FormPage() {
-  const [formProduct, setFormProduct] = useState([{ product: "" }]);
+  const [formProduct, setFormProduct] = useState([{ product: "", price: 0 }]);
   const handleFormProduct = () => {
-    setFormProduct([...formProduct, { product: "" }]);
+    setFormProduct([...formProduct, { product: "", price: 0 }]);
   };
+  console.log(formProduct);
   const handleDeleteProduct = (index) => {
     const newFormProduct = [...formProduct];
     newFormProduct.splice(index, 1);
@@ -13,8 +14,10 @@ export default function FormPage() {
   };
   const handleProduct = (e, index) => {
     const { name, value } = e.target;
+    let arr = value.split(",");
     const temp = [...formProduct];
-    temp[index][name] = value;
+    temp[index][name] = arr[0];
+    temp[index]["price"] = arr[1];
     setFormProduct(temp);
   };
   return (
@@ -68,14 +71,14 @@ export default function FormPage() {
                       onChange={(e) => handleProduct(e, index)}
                       name="product"
                       id=""
-                      value={item.product}
+                      value={[item.product, item.price]}
                       className="border w-1/2 p-2 border-black rounded-md text-lg bg-white"
                     >
                       <option value="">Choose Item</option>
-                      <option value="gaun">Gaun Pesta</option>
-                      <option value="jas">Jas Pria</option>
-                      <option value="tas">Tas Branded</option>
-                      <option value="sepatu">Sepatu</option>
+                      <option value={["gaun", "30000"]}>Gaun Pesta</option>
+                      <option value={["jas", "40000"]}>Jas Pria</option>
+                      <option value={["tas", "50000"]}>Tas Branded</option>
+                      <option value={["sepatu", "100000"]}>Sepatu</option>
                     </select>
                     {formProduct.length > 1 && (
                       <span
@@ -86,7 +89,7 @@ export default function FormPage() {
                       </span>
                     )}
 
-                    <span className="my-auto text-lg">Rp. 20.000</span>
+                    <span className="my-auto text-lg">Rp. {item.price}</span>
                   </div>
                   {formProduct.length - 1 === index && (
                     <span
@@ -105,6 +108,7 @@ export default function FormPage() {
                   Total Item :{" "}
                   {formProduct[0].product === "" ? 0 : formProduct.length} pcs
                 </span>
+                <span className="text-xl">Distance : 2Km</span>
                 <span className=" text-xl">Total Price : Rp. 40.000</span>
               </div>
               <div className="flex">
