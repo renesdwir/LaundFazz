@@ -3,7 +3,6 @@ import Navbar from "../components/Navbar";
 import { MdOutlineGpsFixed } from "react-icons/md";
 export default function FormPage() {
   const [formProduct, setFormProduct] = useState([{ product: "" }]);
-  console.log(formProduct);
   const handleFormProduct = () => {
     setFormProduct([...formProduct, { product: "" }]);
   };
