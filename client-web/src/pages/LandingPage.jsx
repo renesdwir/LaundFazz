@@ -14,20 +14,21 @@ import {
   AiFillTwitterSquare,
   AiOutlineWhatsApp,
   AiOutlineCopyright,
-  AiOutlineMenu,
 } from "react-icons/ai";
-import { GiWashingMachine, GiHamburgerMenu } from "react-icons/gi";
-import { FiLogIn, FiMenu, FiX } from "react-icons/fi";
+import { GiWashingMachine } from "react-icons/gi";
+import { FiLogIn } from "react-icons/fi";
 import Carousel from "../components/Carousel";
 import logo from "../assets/logo.png";
+import Navbar from "../components/Navbar";
 
 export default function LandingPage() {
   let [click, setClick] = useState(false);
   return (
     <>
       <div className="container mx-auto bg-white pt-[3.7rem]">
+        <Navbar />
         {/* navbar */}
-        <div className="w-full px-6 bg-blue-700 py-4 flex flex-row justify-between fixed top-0 left-0 z-50">
+        {/* <div className="w-full px-6 bg-sky-500 py-4 flex flex-row justify-between fixed top-0 left-0 z-50">
           <div className="text-white text-xl font-semibold">
             <img src={logo} alt="" className="h-12" />
           </div>
@@ -45,11 +46,11 @@ export default function LandingPage() {
         </div>
         <div
           // atas
-          className={`bg-blue-700 text-white fixed left-0 right-0 ${
+          className={`bg-sky-500 text-white fixed left-0 right-0 ${
             click ? "top-[4.9rem]" : "top-[-400px]"
           } text-center text-xl z-10 transition-all duration-500 ease pb-5`}
           // samping
-          // className={`bg-blue-700 text-white fixed top-[4.9rem]  ${
+          // className={`bg-sky-500 text-white fixed top-[4.9rem]  ${
           //   click ? "right-0 left-0" : "left-[1000px] right-[-1000px]"
           // } text-center text-xl z-10 transition-all duration-500 ease pb-5`}
         >
@@ -67,7 +68,7 @@ export default function LandingPage() {
               <a href="">Login</a>
             </li>
           </ul>
-        </div>
+        </div> */}
         {/* end navbar */}
 
         <div onClick={() => setClick(false)}>
@@ -85,7 +86,7 @@ export default function LandingPage() {
                 Lorem ipsum dolor, sit amet consectetur adipisicing elit. Error,
                 vitae
               </p>
-              <button className="px-5 py-3 rounded-2xl  bg-blue-700 text-lg  mt-8 hover:bg-blue-800">
+              <button className="px-5 py-3 rounded-2xl  bg-sky-500 text-lg  mt-8 hover:bg-blue-800">
                 Get Started
               </button>
             </div>
@@ -94,7 +95,7 @@ export default function LandingPage() {
 
           {/* How */}
           <div className="px-2 pb-5 bg-slate-100">
-            <h1 className="uppercase text-center text-2xl font-bold py-12 text-blue-700">
+            <h1 className="uppercase text-center text-2xl font-bold py-12 text-sky-500">
               Langkah Pemesanan
             </h1>
             <div className="flex flex-col justify-center">
@@ -118,41 +119,41 @@ export default function LandingPage() {
 
           {/* Why me */}
           <div className="px-2 mb-16">
-            <h1 className="uppercase text-center text-2xl font-bold py-10 text-blue-700">
+            <h1 className="uppercase text-center text-2xl font-bold py-10 text-sky-500">
               Why LaundFazz
             </h1>
             <div className="flex flex-wrap flex-row justify-evenly gap-y-7">
               <div className="card border border-slate-400 rounded-lg shadow-xl w-36 p-4 text-center">
-                <VscWorkspaceTrusted className="text-blue-700 text-[4rem] mx-auto" />
+                <VscWorkspaceTrusted className="text-sky-500 text-[4rem] mx-auto" />
                 <h1 className="mt-3 text-lg font-semibold uppercase">
                   Trusted
                 </h1>
                 <span>Lorem ipsum dolor sit.</span>
               </div>
               <div className="card border border-slate-400 rounded-lg shadow-xl w-36 p-4 text-center">
-                <MdLocalLaundryService className="text-blue-700 text-[4rem] mx-auto" />
+                <MdLocalLaundryService className="text-sky-500 text-[4rem] mx-auto" />
                 <h1 className="mt-3 text-lg font-semibold uppercase">Easy</h1>
                 <span>Lorem ipsum dolor sit.</span>
               </div>
               <div className="card border border-slate-400 rounded-lg shadow-xl w-36 p-4 text-center">
-                <FaShippingFast className="text-blue-700 text-[4rem] mx-auto" />
+                <FaShippingFast className="text-sky-500 text-[4rem] mx-auto" />
                 <h1 className="mt-3 text-lg font-semibold uppercase">Fast</h1>
                 <span>Lorem ipsum dolor sit.</span>
               </div>
               <div className="card border border-slate-400 rounded-lg shadow-xl w-36 p-4 text-center">
-                <MdDryCleaning className="text-blue-700 text-[4rem] mx-auto" />
+                <MdDryCleaning className="text-sky-500 text-[4rem] mx-auto" />
                 <h1 className="mt-3 text-lg font-semibold uppercase">Clean</h1>
                 <span>Lorem ipsum dolor sit.</span>
               </div>
               <div className="card border border-slate-400 rounded-lg shadow-xl w-36 p-4 text-center">
-                <MdOutlineDeliveryDining className="text-blue-700 text-[4rem] mx-auto" />
+                <MdOutlineDeliveryDining className="text-sky-500 text-[4rem] mx-auto" />
                 <h1 className="mt-3 text-lg font-semibold uppercase">
                   Pick Up
                 </h1>
                 <span>Lorem ipsum dolor sit.</span>
               </div>
               <div className="card border border-slate-400 rounded-lg shadow-xl w-36 p-4 text-center">
-                <AiFillCreditCard className="text-blue-700 text-[4rem] mx-auto" />
+                <AiFillCreditCard className="text-sky-500 text-[4rem] mx-auto" />
                 <h1 className="mt-3 text-lg font-semibold uppercase">
                   Payment
                 </h1>
@@ -163,7 +164,7 @@ export default function LandingPage() {
           {/* end Why me */}
 
           {/* apa kata mereka */}
-          <div className="carousel h-96 text-center bg-blue-700">
+          <div className="carousel h-96 text-center bg-sky-500">
             <h1 className="uppercase text-center text-2xl font-bold py-6 pt-10 text-white">
               Apa Kata Mereka
             </h1>
@@ -175,7 +176,7 @@ export default function LandingPage() {
 
           {/* About us */}
           <div className="px-2 pb-5 mb-5">
-            <h1 className="uppercase text-center text-2xl font-bold py-8 text-blue-700">
+            <h1 className="uppercase text-center text-2xl font-bold py-8 text-sky-500">
               About Us
             </h1>
             <div className="flex flex-col justify-center px-6">
