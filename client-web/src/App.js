@@ -4,14 +4,14 @@ import FormPage from "./pages/FormPage";
 import MyHistoryPage from "./pages/MyHistoryPage";
 import DetailPage from "./pages/DetailPage";
 import { Route, Routes } from "react-router-dom";
-import MapTracking from "./components/Map/MapTracking";
+import MapTansaction from "./components/MapTransaction";
 function App() {
   return (
     <>
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/form" element={<FormPage />} />
-        <Route path="/form/map" element={<MapForm />} />
+        <Route path="/form/map" element={<MapTansaction />} />
         <Route path="/myhistory" element={<MyHistoryPage />} />
         <Route path="/detail/:id" element={<DetailPage />} />
       </Routes>

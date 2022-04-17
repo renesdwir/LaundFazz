@@ -5,11 +5,9 @@ import { GeolocateControl } from "maplibre-gl";
 import { fetchAdress, fetchRoute } from "../store/actions/map";
 import MapTracking from "./Map/MapTracking";
 
-export default function Form() {
+export default function MapTansaction() {
   const geoRef = useRef(null);
-  const mapIsReadyCallback = useCallback((map) => {
-    console.log("masuk");
-  }, []);
+  const mapIsReadyCallback = useCallback((map) => {}, []);
 
   return (
     <div className="w-full flex flex-col h-screen items-center">
