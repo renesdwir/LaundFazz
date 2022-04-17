@@ -10,20 +10,23 @@ import History from './src/screens/History'
 import TabsNav from './src/tabs/TabsNav';
 import Login from './src/screens/Login';
 import Action from './src/screens/Action';
-
+import { ApolloProvider } from '@apollo/client';
+import client from './config/apollo'
 // const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer  >
-      <Stack.Navigator >
-        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-        <Stack.Screen name="TabsNav" component={TabsNav} options={{ headerShown: false }} />
-        <Stack.Screen name="Action" component={Action} options={{ headerShown: false }} />
+    <ApolloProvider client={client}>
+      <NavigationContainer  >
+        <Stack.Navigator >
+          <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+          <Stack.Screen name="TabsNav" component={TabsNav} options={{ headerShown: false }} />
+          <Stack.Screen name="Action" component={Action} options={{ headerShown: false }} />
 
-      </Stack.Navigator>
-    </NavigationContainer>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </ApolloProvider>
   );
 }
 

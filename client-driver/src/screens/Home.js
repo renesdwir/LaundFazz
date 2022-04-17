@@ -1,9 +1,38 @@
 
 import { NativeBaseProvider, Input, Icon, Button, Stack, TextArea, Text, Pressable, Box, VStack, Center, Divider, ScrollView, HStack } from 'native-base'
 import Ionicons from '@expo/vector-icons/Ionicons';
-
+import { GET_STAFFTRANSACTION } from "../../config/queries"
+import { useQuery } from '@apollo/client';
+import { useEffect, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 
 function Home({ navigation }) {
+
+    const { loading, error, data, refetch } = useQuery(GET_STAFFTRANSACTION, { fetchPolicy: "network-only", nextFetchPolicy: "network-only" });
+
+    // useEffect(() => {
+    //     refetch()
+    //     console.log('1111');
+    // }, [])
+
+    useFocusEffect(
+        useCallback(() => {
+            refetch()
+            // console.log(data);
+            return () => {
+                // Do something when the screen is unfocused
+                // Useful for cleanup functions
+            };
+        }, []))
+
+
+    if (loading) return null;
+    if (error) return null;
+
+    let list = data.getStaffTransactions.filter(e => {
+        return e.status === 'onProgress'
+    })
+
 
     return (
         <NativeBaseProvider >
@@ -25,29 +54,36 @@ function Home({ navigation }) {
                         mb: "4",
                         minW: "72"
                     }}>
-                        <VStack space={4} alignItems="center" safeArea>
-                            <Pressable onPress={() => navigation.navigate("Action")}>
-                                <Box w="96" h="40" bg="darkBlue.800" rounded="3xl" shadow={3}>
-                                    <Text left="7" mt="3" fontWeight="bold" color="light.50">ID: Transaction#123123123</Text>
-                                    <Divider mt="2"></Divider>
-                                    <HStack left="6" mt="3" >
-                                        <Button size="sm" m="1" variant="outline">
-                                            <Text color="light.50">Pickup : 06/05/2022</Text>
-                                        </Button>
-                                        <Button size="sm" m="1" variant="outline">
-                                            <Text color="light.50">Delivery : 07/05/2022</Text>
-                                        </Button>
-                                    </HStack>
+                        {
+                            list.map(transaction => {
+                                return (
+                                    <VStack key={transaction.id} space={4} alignItems="center" safeArea>
+                                        <Pressable onPress={() => navigation.navigate("Action", { transaction })}>
+                                            <Box w="96" h="40" bg="darkBlue.800" rounded="3xl" shadow={3}>
+                                                <Text left="7" mt="3" fontWeight="bold" color="light.50">ID: Transaction#{transaction.id}</Text>
+                                                <Divider mt="2"></Divider>
+                                                <HStack left="6" mt="3" >
+                                                    <Button size="sm" m="1" variant="outline">
+                                                        <Text color="light.50">Pickup : {transaction.pickupDate}</Text>
+                                                    </Button>
+                                                    <Button size="sm" m="1" variant="outline">
+                                                        <Text color="light.50">Delivery : {transaction.deliveryDate}</Text>
+                                                    </Button>
+                                                </HStack>
 
-                                    <HStack left="6" mt="3" >
-                                        <Text mt="2" mr="4" fontWeight="bold" color="light.50">Total Price : </Text>
-                                        <Button size="sm" variant="outline">
-                                            <Text fontWeight="bold" color="light.50">Rp 100.000</Text>
-                                        </Button>
-                                    </HStack>
-                                </Box>
-                            </Pressable>
-                        </VStack>
+                                                <HStack left="6" mt="3" >
+                                                    <Text mt="2" mr="4" fontWeight="bold" color="light.50">Total Price : </Text>
+                                                    <Button size="sm" variant="outline">
+                                                        <Text fontWeight="bold" color="light.50">Rp {transaction.totalPrice}</Text>
+                                                    </Button>
+                                                </HStack>
+                                            </Box>
+                                        </Pressable>
+                                    </VStack>
+                                )
+                            })
+                        }
+
                     </ScrollView>
                 </Center>
             </VStack>

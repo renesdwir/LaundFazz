@@ -1,11 +1,43 @@
 
 import { NativeBaseProvider, Input, Modal, Icon, Divider, HStack, Heading, Button, Text, Pressable, Box, VStack, Center, ScrollView } from 'native-base'
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { useState } from 'react';
-
+import { useEffect, useState } from 'react';
+import { useQuery } from '@apollo/client';
+import { GET_STAFFTRANSACTION, GET_TRANSACTIONDETAIL } from "../../config/queries"
 
 function History({ navigation }) {
     const [showModal, setShowModal] = useState(false);
+
+    const { loading, error, data, refetch: refetchall } = useQuery(GET_STAFFTRANSACTION);
+
+    const { loading: loadingD, error: errorD, data: dataD, refetch } = useQuery(GET_TRANSACTIONDETAIL, {
+        variables: {
+            "getStaffTransactionByIdId": 1
+        },
+    });
+
+    useEffect(() => {
+        refetchall()
+
+    }, [])
+
+    if (loading) return null;
+    if (error) return null;
+    if (loadingD) return null;
+    if (errorD) return null;
+
+
+
+    const handlerOpenModal = (id) => {
+        setShowModal(true)
+        refetch({ "getStaffTransactionByIdId": id })
+        // console.log(id);
+    }
+
+    let histories = data.getStaffTransactions.filter(e => {
+        return e.status === 'done'
+    })
+
     return (
         <NativeBaseProvider >
             <VStack safeArea>
@@ -24,24 +56,19 @@ function History({ navigation }) {
                         minW: "72"
                     }}>
                         <VStack space={4} alignItems="center" safeArea>
-                            <Pressable onPress={() => setShowModal(true)}>
-                                <Box w="96" h="20" bg="darkBlue.800" rounded="3xl" shadow={3}>
-                                    <Text left="7" mt="3" fontWeight="bold" color="light.50">ID: Transaction#123123123</Text>
-                                    <Text left="7" mt="3" fontWeight="bold" color="light.50">Delivered Date : 07/05/2022</Text>
-                                </Box>
-                            </Pressable>
-                            <Pressable onPress={() => setShowModal(true)}>
-                                <Box w="96" h="20" bg="darkBlue.800" rounded="3xl" shadow={3}>
-                                    <Text left="7" mt="3" fontWeight="bold" color="light.50">ID: Transaction#123123123</Text>
-                                    <Text left="7" mt="3" fontWeight="bold" color="light.50">Delivered Date : 07/05/2022</Text>
-                                </Box>
-                            </Pressable>
-                            <Pressable onPress={() => setShowModal(true)}>
-                                <Box w="96" h="20" bg="darkBlue.800" rounded="3xl" shadow={3}>
-                                    <Text left="7" mt="3" fontWeight="bold" color="light.50">ID: Transaction#123123123</Text>
-                                    <Text left="7" mt="3" fontWeight="bold" color="light.50">Delivered Date : 07/05/2022</Text>
-                                </Box>
-                            </Pressable>
+                            {
+                                histories.map(history => {
+                                    return (
+                                        <Pressable key={history.id} onPress={() => handlerOpenModal(history.id)}>
+                                            <Box w="96" h="20" bg="darkBlue.800" rounded="3xl" shadow={3}>
+                                                <Text left="7" mt="3" fontWeight="bold" color="light.50">ID: Transaction#{history.id}</Text>
+                                                <Text left="7" mt="3" fontWeight="bold" color="light.50">Delivered Date : {history.deliveryDate}</Text>
+                                            </Box>
+                                        </Pressable>
+                                    )
+                                })
+                            }
+
                         </VStack>
                     </ScrollView>
                 </Center>
@@ -54,14 +81,14 @@ function History({ navigation }) {
                     </Modal.Header>
                     <Modal.Body>
                         <Box right="4" w="96" h="auto" bg="darkBlue.800" shadow={3}>
-                            <Text left="7" mt="3" fontWeight="bold" color="light.50">ID: Transaction#123123123</Text>
+                            <Text left="7" mt="3" fontWeight="bold" color="light.50">ID: Transaction#{dataD.getStaffTransactionById.id}</Text>
                             <Divider mt="2"></Divider>
                             <HStack left="6" mt="2" >
                                 <Button size="sm" m="1" variant="outline">
-                                    <Text color="light.50">Pickup : 06/05/2022</Text>
+                                    <Text color="light.50">Pickup : {dataD.getStaffTransactionById.pickupDate}</Text>
                                 </Button>
                                 <Button size="sm" m="1" variant="outline">
-                                    <Text color="light.50">Delivery : 07/05/2022</Text>
+                                    <Text color="light.50">Delivery : {dataD.getStaffTransactionById.deliveryDate}</Text>
                                 </Button>
                             </HStack>
                             <Text left="6" mt="2" mr="4" fontWeight="bold" color="light.50">Location :</Text>
@@ -75,6 +102,15 @@ function History({ navigation }) {
                                 minW: "md"
                             }} >
                                 <HStack left="6" mt="2">
+                                    {
+                                        dataD.getStaffTransactionById.Products.map(item => {
+                                            return (
+                                                <Button key={item.id} size="sm" ml="1" mr="1" variant="outline">
+                                                    <Text fontWeight="bold" color="light.50">{item.name}</Text>
+                                                </Button>
+                                            )
+                                        })
+                                    }
                                     <Button size="sm" ml="1" mr="1" variant="outline">
                                         <Text fontWeight="bold" color="light.50">BedCover</Text>
                                     </Button>
@@ -89,7 +125,7 @@ function History({ navigation }) {
                             <HStack left="6" mb="5" mt="5" >
                                 <Text mt="2" mr="4" fontWeight="bold" color="light.50">Total Price : </Text>
                                 <Button size="sm" variant="outline">
-                                    <Text fontWeight="bold" color="light.50">Rp 100.000</Text>
+                                    <Text fontWeight="bold" color="light.50">Rp {dataD.getStaffTransactionById.totalPrice}</Text>
                                 </Button>
                             </HStack>
 
