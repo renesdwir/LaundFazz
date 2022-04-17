@@ -44,7 +44,6 @@ export default function Form() {
           lon2: 107.61718541400433,
         })
       ).then((res) => {
-        console.log(res.features?.[0]);
         setDistance(res.features?.[0]?.properties?.distance / 1000);
       });
     });
