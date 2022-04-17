@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import { MdOutlineGpsFixed } from "react-icons/md";
+import { GET_PRODUCTS } from "../config/queries";
+import { useQuery } from "@apollo/client";
+
 export default function FormPage() {
   const [formProduct, setFormProduct] = useState([{ product: "", price: 0 }]);
+  const { loading, error, data } = useQuery(GET_PRODUCTS);
   const handleFormProduct = () => {
     setFormProduct([...formProduct, { product: "", price: 0 }]);
   };
-  console.log(formProduct);
   const handleDeleteProduct = (index) => {
     const newFormProduct = [...formProduct];
     newFormProduct.splice(index, 1);
@@ -20,6 +23,13 @@ export default function FormPage() {
     temp[index]["price"] = arr[1];
     setFormProduct(temp);
   };
+  function handlePrice() {
+    let total = 0;
+    formProduct.map((item) => {
+      total += +item.price;
+    });
+    return new Intl.NumberFormat("id-ID").format(total);
+  }
   return (
     <>
       <div className="container mx-auto bg-white pt-[5rem]">
@@ -75,10 +85,16 @@ export default function FormPage() {
                       className="border w-1/2 p-2 border-black rounded-md text-lg bg-white"
                     >
                       <option value="">Choose Item</option>
-                      <option value={["gaun", "30000"]}>Gaun Pesta</option>
+                      {data &&
+                        data.getProducts.map((item) => (
+                          <option key={item.id} value={[item.name, item.price]}>
+                            {item.name}
+                          </option>
+                        ))}
+                      {/* <option value={["gaun", "30000"]}>Gaun Pesta</option>
                       <option value={["jas", "40000"]}>Jas Pria</option>
                       <option value={["tas", "50000"]}>Tas Branded</option>
-                      <option value={["sepatu", "100000"]}>Sepatu</option>
+                      <option value={["sepatu", "100000"]}>Sepatu</option> */}
                     </select>
                     {formProduct.length > 1 && (
                       <span
@@ -89,7 +105,10 @@ export default function FormPage() {
                       </span>
                     )}
 
-                    <span className="my-auto text-lg">Rp. {item.price}</span>
+                    <span className="my-auto text-lg">
+                      Rp.
+                      {new Intl.NumberFormat("id-ID").format(+item.price)}
+                    </span>
                   </div>
                   {formProduct.length - 1 === index && (
                     <span
@@ -109,7 +128,9 @@ export default function FormPage() {
                   {formProduct[0].product === "" ? 0 : formProduct.length} pcs
                 </span>
                 <span className="text-xl">Distance : 2Km</span>
-                <span className=" text-xl">Total Price : Rp. 40.000</span>
+                <span className=" text-xl">
+                  Total Price : Rp.{handlePrice()}
+                </span>
               </div>
               <div className="flex">
                 <button className="text-xl mx-auto bg-sky-500 text-white px-4 py-2 rounded-2xl mt-3">

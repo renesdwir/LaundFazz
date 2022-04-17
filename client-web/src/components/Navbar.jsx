@@ -45,7 +45,7 @@ export default function Navbar() {
             <NavLink to="/myhistory">My History</NavLink>
           </li>
           <li className="p-5 hover:bg-blue-800">
-            <NavLink to="/login">Login</NavLink>
+            <NavLink to="/login">Logout</NavLink>
           </li>
         </ul>
       </div>
