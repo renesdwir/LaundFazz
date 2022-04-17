@@ -7,12 +7,16 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import "swiper/css/bundle";
 import { store } from "./store";
+import { ApolloProvider } from "@apollo/client";
+import client from "./config/apollo.js";
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <ApolloProvider client={client}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ApolloProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")
