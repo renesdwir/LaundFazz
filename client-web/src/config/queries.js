@@ -16,3 +16,24 @@ export const GET_NAME = gql`
     }
   }
 `;
+
+export const POST_TRANSACTIONS = gql`
+  mutation Mutation($staffId: ID!, $productArrays: [Int], $totalPrice: Int) {
+    userAddTransaction(
+      StaffId: $staffId
+      productArrays: $productArrays
+      totalPrice: $totalPrice
+    ) {
+      status
+      id
+      CustomerId
+      StaffId
+      isPaid
+      pickupDate
+      deliveryDate
+      longitude
+      latitude
+      totalPrice
+    }
+  }
+`;

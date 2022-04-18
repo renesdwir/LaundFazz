@@ -25,7 +25,7 @@ function MapForm({ mapIsReadyCallback }) {
   }, [mapIsReadyCallback]);
 
   return (
-    <div className="w-80 h-80">
+    <div className="w-full h-64">
       <div className="map-container" ref={mapContainer}></div>
     </div>
   );
