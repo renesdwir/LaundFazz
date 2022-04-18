@@ -1,14 +1,89 @@
-import React, { useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import Navbar from "../components/Navbar";
 import { MdOutlineGpsFixed } from "react-icons/md";
 import { GET_PRODUCTS } from "../config/queries";
-import { useQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
+import { POST_TRANSACTIONS } from "../config/queries";
+import { useDispatch } from "react-redux";
+import MapForm from "../components/Map/MapForm";
+import { GeolocateControl } from "maplibre-gl";
+import { fetchAdress, fetchRoute } from "../store/actions/map";
+import { useNavigate } from "react-router-dom";
 
 export default function FormPage() {
-  const [formProduct, setFormProduct] = useState([{ product: "", price: 0 }]);
+  const [formProduct, setFormProduct] = useState([
+    { product: "", price: 0, id: 0 },
+  ]);
+  const [addForm] = useMutation(POST_TRANSACTIONS);
   const { loading, error, data } = useQuery(GET_PRODUCTS);
+  const geoRef = useRef(null);
+  const [address, setAddress] = useState({
+    formatted: "",
+    lat: 0,
+    lon: 0,
+  });
+  const [distance, setDistance] = useState(0);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const mapIsReadyCallback = useCallback((map) => {
+    const geolocate = new GeolocateControl({
+      positionOptions: {
+        enableHighAccuracy: true,
+      },
+      trackUserLocation: true,
+    });
+    map.addControl(geolocate);
+    geoRef.current = geolocate;
+  }, []);
+  function findMe() {
+    geoRef.current.trigger();
+    navigator.geolocation.getCurrentPosition((e) => {
+      const { longitude: lon, latitude: lat } = e.coords;
+      dispatch(fetchAdress({ lon, lat })).then((res) => {
+        setAddress({
+          ...address,
+          formatted: res.results?.[0]?.formatted,
+          lat,
+          lon,
+        });
+      });
+      dispatch(
+        fetchRoute({
+          lon1: lon,
+          lat1: lat,
+          lat2: -6.928883448498851,
+          lon2: 107.61718541400433,
+        })
+      ).then((res) => {
+        setDistance(res.features?.[0]?.properties?.distance / 1000);
+      });
+    });
+  }
+
+  const formHandler = async (e) => {
+    e.preventDefault();
+    let arr = [];
+    let total = 0;
+    formProduct.forEach((el) => {
+      total = +el.price + total;
+      arr.push(+el.id);
+    });
+    total += Math.floor(distance * 4000);
+    await addForm({
+      variables: {
+        latitude: address.lat + "",
+        longitude: address.lon + "",
+        staffId: 1,
+        productArrays: arr,
+        totalPrice: total,
+      },
+    });
+    navigate("/myhistory");
+  };
+
   const handleFormProduct = () => {
-    setFormProduct([...formProduct, { product: "", price: 0 }]);
+    setFormProduct([...formProduct, { product: "", price: 0, id: 0 }]);
   };
   const handleDeleteProduct = (index) => {
     const newFormProduct = [...formProduct];
@@ -16,11 +91,12 @@ export default function FormPage() {
     setFormProduct(newFormProduct);
   };
   const handleProduct = (e, index) => {
-    const { name, value } = e.target;
+    const { name, value, id } = e.target;
     let arr = value.split(",");
     const temp = [...formProduct];
     temp[index][name] = arr[0];
     temp[index]["price"] = arr[1];
+    temp[index]["id"] = arr[2];
     setFormProduct(temp);
   };
   function handlePrice() {
@@ -28,6 +104,7 @@ export default function FormPage() {
     formProduct.map((item) => {
       total += +item.price;
     });
+    total += Math.floor(distance * 4000);
     return new Intl.NumberFormat("id-ID").format(total);
   }
   return (
@@ -38,24 +115,26 @@ export default function FormPage() {
           <h1 className="mx-auto text-4xl font-semibold my-8 text-sky-500">
             LaundFazz Form
           </h1>
-          <form className="form p-5 border border-slate-500 rounded-lg">
+          <form
+            onSubmit={formHandler}
+            className="form p-5 border border-slate-500 rounded-lg"
+          >
             <div className="flex flex-row justify-between">
               <h1 className="text-xl uppercase mb-4 w-full  text-sky-500 text-left">
                 Set Your Location
               </h1>
-              <MdOutlineGpsFixed className=" text-3xl border border-black rounded-md text-sky-500" />
             </div>
             <div className="map">
-              <iframe
-                title="map"
-                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15843.603247420415!2d107.6186961!3d-6.9024642!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x37be7ac9d575f7ed!2sGedung%20Sate!5e0!3m2!1sid!2sid!4v1650076742344!5m2!1sid!2sid"
-                width="100%"
-                height="350"
-                className="border-none mx-auto"
-                allowFullScreen=""
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              ></iframe>
+              <MapForm mapIsReadyCallback={mapIsReadyCallback} />
+            </div>
+            <div className="w-full flex justify-center mt-3">
+              <button
+                type="button"
+                className=" text-white bg-sky-500 hover:bg-sky-600 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                onClick={findMe}
+              >
+                Find me
+              </button>
             </div>
             <div>
               <h1 className="text-xl uppercase my-4 w-full  text-sky-500 text-left">
@@ -67,6 +146,7 @@ export default function FormPage() {
                 id=""
                 cols="40"
                 rows="5"
+                defaultValue={address.formatted || ""}
               ></textarea>
             </div>
             <div className="laund-form">
@@ -81,20 +161,19 @@ export default function FormPage() {
                       onChange={(e) => handleProduct(e, index)}
                       name="product"
                       id=""
-                      value={[item.product, item.price]}
+                      value={[item.product, item.price, item.id]}
                       className="border w-1/2 p-2 border-black rounded-md text-lg bg-white"
                     >
                       <option value="">Choose Item</option>
                       {data &&
                         data.getProducts.map((item) => (
-                          <option key={item.id} value={[item.name, item.price]}>
+                          <option
+                            key={item.id}
+                            value={[item.name, item.price, item.id]}
+                          >
                             {item.name}
                           </option>
                         ))}
-                      {/* <option value={["gaun", "30000"]}>Gaun Pesta</option>
-                      <option value={["jas", "40000"]}>Jas Pria</option>
-                      <option value={["tas", "50000"]}>Tas Branded</option>
-                      <option value={["sepatu", "100000"]}>Sepatu</option> */}
                     </select>
                     {formProduct.length > 1 && (
                       <span
@@ -127,7 +206,7 @@ export default function FormPage() {
                   Total Item :{" "}
                   {formProduct[0].product === "" ? 0 : formProduct.length} pcs
                 </span>
-                <span className="text-xl">Distance : 2Km</span>
+                <span className="text-xl">Distance: {distance} Km</span>
                 <span className=" text-xl">
                   Total Price : Rp.{handlePrice()}
                 </span>
