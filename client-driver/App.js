@@ -14,16 +14,18 @@ import { ApolloProvider } from '@apollo/client';
 import client from './config/apollo'
 // const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+import io from 'socket.io-client'
+import Chat from './src/screens/Chat';
 
 export default function App() {
   return (
     <ApolloProvider client={client}>
       <NavigationContainer  >
         <Stack.Navigator >
+          <Stack.Screen name="Chat" component={Chat} />
           <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
           <Stack.Screen name="TabsNav" component={TabsNav} options={{ headerShown: false }} />
           <Stack.Screen name="Action" component={Action} options={{ headerShown: false }} />
-
         </Stack.Navigator>
       </NavigationContainer>
     </ApolloProvider>

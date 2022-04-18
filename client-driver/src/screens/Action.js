@@ -30,9 +30,9 @@ function Action({ route, navigation }) {
 
     const handlerUpdate = async (id) => {
         await putstatus({ variables: { putTransactionId: id, status: "done", deliveryDate: new Date() } })
-        toast.show({
-            description: "Hello world"
-        })
+        // toast.show({
+        //     description: "Hello world"
+        // })
         navigation.navigate("History")
     }
 
@@ -113,8 +113,12 @@ function Action({ route, navigation }) {
                             Navigate
                         </Button>
 
-                        <Button onPress={() => handlerUpdate(data.getStaffTransactionById.id)} mt="2"  >
+                        <Button bg="darkBlue.800" onPress={() => handlerUpdate(data.getStaffTransactionById.id)} mt="2"  >
                             Laundry Done
+                        </Button>
+
+                        <Button mt="2" onPress={() => navigation.navigate("Chat")} bg="darkBlue.800">
+                            Chat
                         </Button>
 
 
