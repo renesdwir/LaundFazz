@@ -23,9 +23,9 @@ export function Chat({ socket, username, room }) {
       const time = strHour + ":" + strMinute;
       const data = {
         room,
-        username,
-        message,
-        time,
+        text: message,
+        user: { _id: username },
+        createdAt: new Date(),
       };
       await socket.emit("chatFromClient", data);
       setArrMessage([]);
@@ -45,15 +45,15 @@ export function Chat({ socket, username, room }) {
               <div
                 className="message"
                 key={i}
-                id={username === el.username ? "you" : "other"}
+                id={username === el.user._id ? "you" : "other"}
               >
                 <div>
                   <div className="message-content">
-                    <p>{el.message}</p>
+                    <p>{el.text}</p>
                   </div>
                   <div className="message-meta">
                     <p>{el.time} </p>
-                    <p>{el.username}</p>
+                    <p>{el.user._id}</p>
                   </div>
                 </div>
               </div>

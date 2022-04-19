@@ -70,10 +70,11 @@ export default function FormPage() {
       arr.push(+el.id);
     });
     total += Math.floor(distance * 4000);
+    // console.log(address.lat.toString(), address.lon.toString());
     await addForm({
       variables: {
-        latitude: address.lat + "",
-        longitude: address.lon + "",
+        latitude: address.lat.toString(),
+        longitude: address.lon.toString(),
         staffId: 1,
         productArrays: arr,
         totalPrice: total,
