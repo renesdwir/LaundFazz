@@ -18,11 +18,19 @@ export const GET_NAME = gql`
 `;
 
 export const POST_TRANSACTIONS = gql`
-  mutation Mutation($staffId: ID!, $productArrays: [Int], $totalPrice: Int) {
+  mutation Mutation(
+    $staffId: ID!
+    $productArrays: [Int]
+    $totalPrice: Int
+    $longitude: String
+    $latitude: String
+  ) {
     userAddTransaction(
       StaffId: $staffId
       productArrays: $productArrays
       totalPrice: $totalPrice
+      longitude: $longitude
+      latitude: $latitude
     ) {
       status
       id
@@ -34,6 +42,43 @@ export const POST_TRANSACTIONS = gql`
       longitude
       latitude
       totalPrice
+    }
+  }
+`;
+
+export const GET_TRANSACTIONS = gql`
+  query GetUserTransactions {
+    getUserTransactions {
+      id
+      pickupDate
+      totalPrice
+      Products {
+        name
+      }
+      isPaid
+      createdAt
+    }
+  }
+`;
+
+export const GET_BY_ID = gql`
+  query GetUserTransactionById($getUserTransactionByIdId: ID!) {
+    getUserTransactionById(id: $getUserTransactionByIdId) {
+      transaction {
+        id
+        status
+        pickupDate
+        deliveryDate
+        longitude
+        latitude
+        totalPrice
+        Products {
+          name
+        }
+      }
+      data {
+        invoice_url
+      }
     }
   }
 `;

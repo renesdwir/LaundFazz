@@ -82,7 +82,7 @@ export default function LandingPage() {
             }}
           >
             <div className="my-auto pt-[8rem] text-white drop-shadow-2xl">
-              <h1 className="text-4xl font-semibold">Ini Jargon Kami</h1>
+              <h1 className="text-4xl font-semibold">Ini Kata Katanya</h1>
               <p className="text-lg mt-5">
                 Lorem ipsum dolor, sit amet consectetur adipisicing elit. Error,
                 vitae

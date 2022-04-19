@@ -3,9 +3,11 @@ import Card from "../components/Card";
 import Navbar from "../components/Navbar";
 import { useQuery } from "@apollo/client";
 import { GET_NAME } from "../config/queries";
+import { GET_TRANSACTIONS } from "../config/queries";
 
 export default function MyHistoryPage() {
-  const { loading, error, data } = useQuery(GET_NAME);
+  const { data } = useQuery(GET_NAME);
+  const { loading2, error, data: data2 } = useQuery(GET_TRANSACTIONS);
   return (
     <>
       <div className="container mx-auto bg-white pt-[5rem]">
@@ -17,12 +19,9 @@ export default function MyHistoryPage() {
           </h1>
           <p className="text-large">Welcome to your history transactions</p>
           <div className="card-list mt-5 mb-20 flex flex-col gap-5">
-            <Card status={"unpaid"} />
-            <Card status={"unpaid"} />
-            <Card status={"paid"} />
-            <Card status={"paid"} />
-            <Card status={"paid"} />
-            <Card status={"paid"} />
+            {data2?.getUserTransactions.map((item, index) => {
+              return <Card key={item.id} data={item} />;
+            })}
           </div>
         </div>
       </div>

@@ -9,7 +9,7 @@ const connectionOptions = {
   transports: ["websocket"],
 };
 const socket = io.connect(
-  "https://mighty-insect-100.loca.lt/",
+  "https://7bfc-180-251-208-116.ngrok.io",
   connectionOptions
 );
 
