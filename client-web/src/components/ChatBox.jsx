@@ -23,10 +23,15 @@ export function Chat({ socket, username, room }) {
       const time = strHour + ":" + strMinute;
       const data = {
         room,
-        username,
-        message,
-        time,
+        text: message,
+        user: {
+          _id: username,
+          name: username,
+          avatar: "https://www.bootdey.com/img/Content/avatar/avatar6.png",
+        },
+        createdAt: new Date(),
       };
+
       await socket.emit("chatFromClient", data);
       setArrMessage([]);
       setMessage("");
@@ -45,15 +50,23 @@ export function Chat({ socket, username, room }) {
               <div
                 className="message"
                 key={i}
-                id={username === el.username ? "you" : "other"}
+                id={username === el.user._id ? "you" : "other"}
               >
                 <div>
-                  <div className="message-content">
-                    <p>{el.message}</p>
-                  </div>
-                  <div className="message-meta">
-                    <p>{el.time} </p>
-                    <p>{el.username}</p>
+                  <div
+                    className="message"
+                    key={i}
+                    id={username == el.user._id ? "you" : "other"}
+                  >
+                    <div>
+                      <div className="message-content">
+                        <p>{el.text}</p>
+                      </div>
+                      <div className="message-meta">
+                        <p>{el.time} </p>
+                        <p>{el.user._id}</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
