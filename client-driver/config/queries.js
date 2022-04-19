@@ -53,3 +53,11 @@ mutation PutTransaction($putTransactionId: ID!) {
   }
 }
 `
+export const PATCH_LOCATION = gql`
+  mutation StaffPatchPosition($longitude: String, $latitude: String) {
+    staffPatchPosition(longitude: $longitude, latitude: $latitude) {
+      longitude
+      latitude
+    }
+  }
+`;

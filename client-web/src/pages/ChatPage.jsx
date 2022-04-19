@@ -8,10 +8,7 @@ const connectionOptions = {
   timeout: 10000, //before connect_error and connect_timeout are emitted.
   transports: ["websocket"],
 };
-const socket = io.connect(
-  "https://7bfc-180-251-208-116.ngrok.io",
-  connectionOptions
-);
+const socket = io.connect("http://localhost:3002", connectionOptions);
 
 function ChatPage() {
   const [username, setUsername] = useState("");
