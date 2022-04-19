@@ -11,8 +11,8 @@ export default function TabsNav() {
     return (
         // <NavigationContainer  >
         <Tab.Navigator screenOptions={({ route }) => ({
-            tabBarActiveTintColor: '#002851',
-            tabBarInactiveTintColor: '#002851',
+            tabBarActiveTintColor: '#0284c7',
+            tabBarInactiveTintColor: '#0284c7',
             tabBarIcon: ({ focused, color, size }) => {
                 let iconName;
 
@@ -24,18 +24,19 @@ export default function TabsNav() {
                     iconName = focused ? 'ios-list' : 'ios-list-outline';
                 }
                 // You can return any component that you like here!
-                return <Ionicons name={iconName} size={size} color={'#002851'} />;
-
+                return <Ionicons name={iconName} size={size} color={'#0284c7'} />;
+                // color={'#002851'}
             },
             // tabBarStyle: {
             //   backgroundColor: 'black',
             //   borderTopColor: 'transparent'
             // }
-        })} >
+        })
+        } >
             <Tab.Screen name="Home" component={StackNav} options={{ headerShown: false }} />
             <Tab.Screen name="History" component={History} options={{ headerShown: false }} />
             {/* <Tab.Screen name="StackNav" component={StackNav} options={{ headerShown: false }} /> */}
-        </Tab.Navigator>
+        </ Tab.Navigator>
         // </NavigationContainer>
     );
 }

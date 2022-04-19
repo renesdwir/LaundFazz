@@ -5,6 +5,7 @@ import { GET_STAFFTRANSACTION } from "../../config/queries"
 import { useQuery } from '@apollo/client';
 import { useEffect, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
+const moment = require('moment');
 
 function Home({ navigation }) {
 
@@ -38,36 +39,37 @@ function Home({ navigation }) {
         <NativeBaseProvider >
             <VStack safeArea>
                 <Box mt="3">
-                    <Box alignItems="center" alignSelf="center" w="100%" h="24" bg="darkBlue.800" _text={{
+                    <Box alignItems="center" alignSelf="center" w="100%" h="24" bg="info.500" _text={{
                     }}>
                         <HStack>
                             <Text fontSize={30} fontWeight="extrabold" mt="5" color="light.50" > Laund</Text>
-                            <Text fontSize={30} fontStyle="italic" mt="5" color="darkBlue.200" > Fazz</Text>
+                            <Text fontSize={30} fontStyle="italic" mt="5" color="yellow.400" > Fazz</Text>
                         </HStack>
                     </Box>
                     <Input placeholder="Search ID" alignSelf="center" w="96" top="70" fontSize="2xl" position="absolute" variant="filled" width="100%" borderRadius="5" py="3" px="2" borderWidth="3" borderColor="muted.200" InputLeftElement={<Icon ml="3" size="6" color="muted.500" as={<Ionicons name="ios-search" />} />} />
                 </Box>
 
                 <Center>
-                    <ScrollView maxW="96" h="xl" top="8" _contentContainerStyle={{
+                    <ScrollView maxW="96" h="2xl" top="8" _contentContainerStyle={{
                         px: "100px",
                         mb: "4",
                         minW: "72"
                     }}>
                         {
                             list.map(transaction => {
+
                                 return (
                                     <VStack key={transaction.id} space={4} alignItems="center" safeArea>
                                         <Pressable onPress={() => navigation.navigate("Action", { transaction })}>
-                                            <Box w="96" h="40" bg="darkBlue.800" rounded="3xl" shadow={3}>
+                                            <Box w="96" h="40" bg="info.500" rounded="2xl" shadow={3}>
                                                 <Text left="7" mt="3" fontWeight="bold" color="light.50">ID: Transaction#{transaction.id}</Text>
                                                 <Divider mt="2"></Divider>
                                                 <HStack left="6" mt="3" >
                                                     <Button size="sm" m="1" variant="outline">
-                                                        <Text color="light.50">Pickup : {transaction.pickupDate}</Text>
+                                                        <Text color="light.50">Pickup : {transaction.pickupDate !== null ? moment(transaction.pickupDate).format('DD/MM/YYYY') : '-'}</Text>
                                                     </Button>
                                                     <Button size="sm" m="1" variant="outline">
-                                                        <Text color="light.50">Delivery : {transaction.deliveryDate}</Text>
+                                                        <Text color="light.50">Delivery : {transaction.deliveryDate !== null ? moment(transaction.deliveryDate).format('DD/MM/YYYY') : '-'}</Text>
                                                     </Button>
                                                 </HStack>
 

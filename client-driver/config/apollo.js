@@ -7,7 +7,7 @@ import {
 } from "@apollo/client";
 
 const client = new ApolloClient({
-    uri: 'https://slimy-snake-81.loca.lt/',
+    uri: 'https://32fc-158-140-175-209.ngrok.io',
     cache: new InMemoryCache()
 });
 

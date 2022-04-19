@@ -22,10 +22,11 @@ export default function App() {
     <ApolloProvider client={client}>
       <NavigationContainer  >
         <Stack.Navigator >
-          <Stack.Screen name="Chat" component={Chat} />
+
           <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
           <Stack.Screen name="TabsNav" component={TabsNav} options={{ headerShown: false }} />
           <Stack.Screen name="Action" component={Action} options={{ headerShown: false }} />
+          <Stack.Screen name="Chat" component={Chat} />
         </Stack.Navigator>
       </NavigationContainer>
     </ApolloProvider>

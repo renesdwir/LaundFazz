@@ -24,18 +24,15 @@ function Login({ navigation }) {
                         <FormControl>
                             <FormControl.Label>Password</FormControl.Label>
                             <Input type="password" />
-                            <Link _text={{
-                                fontSize: "xs",
-                                fontWeight: "500",
-                                color: "indigo.500"
-                            }} alignSelf="flex-end" mt="1">
-                                Forget Password?
-                            </Link>
+
                         </FormControl>
-                        <Button mt="2" bg="darkBlue.800" onPress={() => navigation.navigate("TabsNav")}>
+                        <Button mt="2" bg="info.500" onPress={() => navigation.navigate("TabsNav")}>
                             Sign in
                         </Button>
-                        <HStack mt="6" justifyContent="center">
+                        <Button mt="2" bg="yellow.400" onPress={() => navigation.navigate("TabsNav")}>
+                            Sign Up
+                        </Button>
+                        {/* <HStack mt="6" justifyContent="center">
                             <Text fontSize="sm" color="coolGray.600" _dark={{
                                 color: "warmGray.200"
                             }}>
@@ -48,7 +45,7 @@ function Login({ navigation }) {
                             }} href="#">
                                 Sign Up
                             </Link>
-                        </HStack>
+                        </HStack> */}
                     </VStack>
                 </Box>
             </Center>

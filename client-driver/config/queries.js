@@ -30,15 +30,11 @@ query GetStaffTransactionById($getStaffTransactionByIdId: ID!) {
     longitude
     latitude
     totalPrice
+    createdAt
     Products {
       id
       name
-      Price
-      Product {
-        id
-        name
-        price
-      }
+      price
       TransactionProduct {
         id
         TransactionId
@@ -50,8 +46,8 @@ query GetStaffTransactionById($getStaffTransactionByIdId: ID!) {
 `
 
 export const PUT_STATUS = gql`
-mutation PutTransaction($putTransactionId: ID!, $status: String, $deliveryDate: String) {
-  putTransaction(id: $putTransactionId, status: $status, deliveryDate: $deliveryDate) {
+mutation PutTransaction($putTransactionId: ID!) {
+  putTransaction(id: $putTransactionId) {
     id
     status
   }
