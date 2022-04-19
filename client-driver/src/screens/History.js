@@ -4,7 +4,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { useEffect, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_STAFFTRANSACTION, GET_TRANSACTIONDETAIL } from "../../config/queries"
-
+const moment = require('moment');
 function History({ navigation }) {
     const [showModal, setShowModal] = useState(false);
 
@@ -18,7 +18,6 @@ function History({ navigation }) {
 
     useEffect(() => {
         refetchall()
-
     }, [])
 
     if (loading) return null;
@@ -33,7 +32,7 @@ function History({ navigation }) {
         refetch({ "getStaffTransactionByIdId": id })
         // console.log(id);
     }
-
+    // console.log(data.getStaffTransactions);
     let histories = data.getStaffTransactions.filter(e => {
         return e.status === 'done'
     })
@@ -42,7 +41,7 @@ function History({ navigation }) {
         <NativeBaseProvider >
             <VStack safeArea>
                 <Box mt="3">
-                    <Box alignItems="center" alignSelf="center" w="100%" h="24" bg="darkBlue.800" _text={{
+                    <Box alignItems="center" alignSelf="center" w="100%" h="24" bg="info.500" _text={{
                     }}>
                         <Text fontSize={30} mt="5" fontWeight="extrabold" color="light.50" > History </Text>
                     </Box>
@@ -50,7 +49,7 @@ function History({ navigation }) {
                 </Box>
 
                 <Center>
-                    <ScrollView maxW="96" top="12" h="xl" _contentContainerStyle={{
+                    <ScrollView maxW="96" top="12" h="2xl" _contentContainerStyle={{
                         px: "70px",
                         mb: "4",
                         minW: "72"
@@ -60,9 +59,9 @@ function History({ navigation }) {
                                 histories.map(history => {
                                     return (
                                         <Pressable key={history.id} onPress={() => handlerOpenModal(history.id)}>
-                                            <Box w="96" h="20" bg="darkBlue.800" rounded="3xl" shadow={3}>
+                                            <Box w="96" h="20" bg="info.500" rounded="3xl" shadow={3}>
                                                 <Text left="7" mt="3" fontWeight="bold" color="light.50">ID: Transaction#{history.id}</Text>
-                                                <Text left="7" mt="3" fontWeight="bold" color="light.50">Delivered Date : {history.deliveryDate}</Text>
+                                                <Text left="7" mt="3" fontWeight="bold" color="light.50">Delivered Date : {history.pickupDate !== null ? moment(history.pickupDate).format('DD/MM/YYYY') : '-'}</Text>
                                             </Box>
                                         </Pressable>
                                     )
@@ -77,18 +76,18 @@ function History({ navigation }) {
                 <Modal.Content h="auto" w="96">
                     <Modal.CloseButton />
                     <Modal.Header>
-                        <Text fontWeight="bold" color="darkBlue.800">Detail</Text>
+                        <Text fontWeight="bold" color="info.500">Detail</Text>
                     </Modal.Header>
                     <Modal.Body>
-                        <Box right="4" w="96" h="auto" bg="darkBlue.800" shadow={3}>
+                        <Box right="4" w="96" h="auto" bg="info.500" shadow={3}>
                             <Text left="7" mt="3" fontWeight="bold" color="light.50">ID: Transaction#{dataD.getStaffTransactionById.id}</Text>
                             <Divider mt="2"></Divider>
                             <HStack left="6" mt="2" >
                                 <Button size="sm" m="1" variant="outline">
-                                    <Text color="light.50">Pickup : {dataD.getStaffTransactionById.pickupDate}</Text>
+                                    <Text color="light.50">Pickup : {dataD.getStaffTransactionById.pickupDate !== null ? moment(dataD.getStaffTransactionById.pickupDate).format('DD/MM/YYYY') : '-'}</Text>
                                 </Button>
                                 <Button size="sm" m="1" variant="outline">
-                                    <Text color="light.50">Delivery : {dataD.getStaffTransactionById.deliveryDate}</Text>
+                                    <Text color="light.50">Delivery : {dataD.getStaffTransactionById.deliveryDate !== null ? moment(dataD.getStaffTransactionById.deliveryDate).format('DD/MM/YYYY') : '-'}</Text>
                                 </Button>
                             </HStack>
                             <Text left="6" mt="2" mr="4" fontWeight="bold" color="light.50">Location :</Text>
@@ -111,7 +110,7 @@ function History({ navigation }) {
                                             )
                                         })
                                     }
-                                    <Button size="sm" ml="1" mr="1" variant="outline">
+                                    {/* <Button size="sm" ml="1" mr="1" variant="outline">
                                         <Text fontWeight="bold" color="light.50">BedCover</Text>
                                     </Button>
                                     <Button size="sm" ml="1" mr="1" variant="outline">
@@ -119,7 +118,7 @@ function History({ navigation }) {
                                     </Button>
                                     <Button size="sm" ml="1" mr="1" variant="outline">
                                         <Text fontWeight="bold" color="light.50">Sneaker</Text>
-                                    </Button>
+                                    </Button> */}
                                 </HStack>
                             </ScrollView>
                             <HStack left="6" mb="5" mt="5" >
@@ -134,7 +133,7 @@ function History({ navigation }) {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button.Group space={2}>
-                            <Button variant="outline" bg="darkBlue.800" onPress={() => {
+                            <Button variant="outline" bg="yellow.400" onPress={() => {
                                 setShowModal(false);
                             }}>
                                 <Text fontWeight="bold" color="light.50">Back</Text>
