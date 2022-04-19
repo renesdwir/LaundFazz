@@ -5,7 +5,7 @@ import { GeolocateControl } from "maplibre-gl";
 import { fetchAdress, fetchRoute } from "../store/actions/map";
 import MapTracking from "./Map/MapTracking";
 
-export default function MapTansaction() {
+export default function MapTransaction() {
   const geoRef = useRef(null);
   const mapIsReadyCallback = useCallback((map) => {}, []);
 

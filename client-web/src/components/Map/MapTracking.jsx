@@ -3,6 +3,8 @@ import { Map, NavigationControl, Marker } from "maplibre-gl";
 import "./Map.css";
 import { useDispatch } from "react-redux";
 import { fetchRoute } from "../../store/actions/map";
+import { useLazyQuery, useQuery } from "@apollo/client";
+import { GET_DRIVER, GET_TRANSACTIONS } from "../../config/queries";
 
 function MapTracking({ mapIsReadyCallback }) {
   const mapContainer = useRef(null);
@@ -12,61 +14,128 @@ function MapTracking({ mapIsReadyCallback }) {
     lat2: -6.938027475084752,
     lon2: 107.6231310300509,
   });
+  const {
+    data: staff = {
+      getStaff: { latitude: -6.928883448498851, longitude: 107.61718541400433 },
+    },
+    startPolling,
+    stopPolling,
+  } = useQuery(GET_DRIVER, {
+    variables: {
+      id: 1,
+    },
+    fetchPolicy: "cache-and-network",
+    nextFetchPolicy: "cache-and-network",
+  });
+
+  const {
+    data: transactions = {
+      getUserTransactionById: {
+        transaction: {
+          latitude: -6.928883448498851,
+          longitude: 107.61718541400433,
+        },
+      },
+    },
+  } = useQuery(GET_TRANSACTIONS, {
+    variables: {
+      id: 1,
+    },
+    fetchPolicy: "cache-and-network",
+    nextFetchPolicy: "cache-and-network",
+  });
   const dispatch = useDispatch();
+  const mapRef = useRef(null);
+  const driverMarker = useRef(null);
+  const customerMarker = useRef(null);
+
+  useEffect(() => {
+    startPolling(2000);
+    return () => {
+      stopPolling();
+    };
+  }, []);
 
   useEffect(() => {
     const myAPIKey = "eb4656d7c96d4339936375bf8099f864";
     const mapStyle = "https://maps.geoapify.com/v1/styles/osm-carto/style.json";
 
     const initialState = {
-      lng: coords.current.lon1,
-      lat: coords.current.lat1,
-      zoom: 13.5,
+      lng: staff.getStaff.longitude,
+      lat: staff.getStaff.latitude,
+      zoom: 14,
     };
+    if (!mapRef.current) {
+      mapRef.current = new Map({
+        container: mapContainer.current,
+        style: `${mapStyle}?apiKey=${myAPIKey}`,
+        center: [initialState.lng, initialState.lat],
+        zoom: initialState.zoom,
+      });
+      mapRef.current.addControl(new NavigationControl());
+    }
 
-    const map = new Map({
-      container: mapContainer.current,
-      style: `${mapStyle}?apiKey=${myAPIKey}`,
-      center: [initialState.lng, initialState.lat],
-      zoom: initialState.zoom,
-    });
-    map.addControl(new NavigationControl());
-    const clientWaypoint = [coords.current.lon1, coords.current.lat1];
-    new Marker({ color: "#FF0000" }).setLngLat(clientWaypoint).addTo(map);
-    const driverWaypoint = [coords.current.lon2, coords.current.lat2];
-    new Marker().setLngLat(driverWaypoint).addTo(map);
+    console.log("masuk");
+
+    mapIsReadyCallback(mapRef.current);
+  }, [mapIsReadyCallback, dispatch, transactions]);
+  useEffect(() => {
     let routeData;
-    dispatch(
-      fetchRoute({
-        lat1: coords.current.lat1,
-        lon1: coords.current.lon1,
-        lat2: coords.current.lat2,
-        lon2: coords.current.lon2,
-      })
-    ).then((data) => {
-      if (!data) {
-        return;
-      }
-      routeData = data;
-      if (map.getSource("route")) {
-        map.getSource("route").setData(routeData);
+    const clientWaypoint = [
+      +transactions.getUserTransactionById.transaction.longitude,
+      +transactions.getUserTransactionById.transaction.latitude,
+    ];
+    if (mapRef.current) {
+      const driverWaypoint = [
+        +staff.getStaff.longitude,
+        +staff.getStaff.latitude,
+      ];
+      if (driverMarker.current) {
+        driverMarker.current.setLngLat(driverWaypoint);
       } else {
-        map.addSource("route", {
-          type: "geojson",
-          data: routeData,
-        });
+        driverMarker.current = new Marker({ color: "#FF0000" })
+          .setLngLat(driverWaypoint)
+          .addTo(mapRef.current);
       }
-      drawRoute();
-    });
+      if (customerMarker.current) {
+        customerMarker.current.setLngLat(clientWaypoint);
+      } else {
+        customerMarker.current = new Marker()
+          .setLngLat(clientWaypoint)
+          .addTo(mapRef.current);
+      }
+      dispatch(
+        fetchRoute({
+          lat1: staff.getStaff.latitude,
+          lon1: staff.getStaff.longitude,
+          lat2: transactions.getUserTransactionById.transaction.latitude,
+          lon2: transactions.getUserTransactionById.transaction.longitude,
+        })
+      ).then((data) => {
+        if (!data) {
+          return;
+        }
+        routeData = data;
+        if (mapRef.current.getSource("route")) {
+          mapRef.current.getSource("route").setData(routeData);
+        } else {
+          mapRef.current.addSource("route", {
+            type: "geojson",
+            data: routeData,
+          });
+        }
+        drawRoute();
+      });
+    }
     function drawRoute() {
       if (!routeData) {
         return;
       }
-      if (map.getLayer("route-layer")) {
-        map.removeLayer("route-layer");
+      if (mapRef.current.getLayer("route-layer")) {
+        mapRef.current.removeLayer("route-layer");
       }
-      map.getSource("route").setData(routeData);
-      map.addLayer({
+      mapRef.current.getSource("route").setData(routeData);
+      mapRef.current.addLayer({
         id: "route-layer",
         type: "line",
         source: "route",
@@ -81,8 +150,7 @@ function MapTracking({ mapIsReadyCallback }) {
         filter: ["==", "$type", "LineString"],
       });
     }
-    mapIsReadyCallback(map);
-  }, [mapIsReadyCallback, dispatch]);
+  }, [staff, transactions]);
 
   return (
     <div className="w-80 h-80">

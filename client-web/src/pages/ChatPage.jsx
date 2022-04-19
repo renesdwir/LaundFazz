@@ -9,7 +9,7 @@ const connectionOptions = {
   transports: ["websocket"],
 };
 const socket = io.connect(
-  "https://mighty-insect-100.loca.lt/",
+  "https://green-baboon-52.loca.lt/",
   connectionOptions
 );
 

@@ -1,6 +1,19 @@
-import { Center, Heading, Input, Link, FormControl, Button, HStack, Text, VStack, Box, NativeBaseProvider, ScrollView } from 'native-base'
-import React, { useRef, useState, useCallback, useEffect } from 'react'
-import { GiftedChat } from 'react-native-gifted-chat'
+import {
+  Center,
+  Heading,
+  Input,
+  Link,
+  FormControl,
+  Button,
+  HStack,
+  Text,
+  VStack,
+  Box,
+  NativeBaseProvider,
+  ScrollView,
+} from "native-base";
+import React, { useRef, useState, useCallback, useEffect } from "react";
+import { GiftedChat } from "react-native-gifted-chat";
 // import io from 'socket.io-client'
 import SocketIOClient from "socket.io-client/dist/socket.io.js";
 // var connectionOptions = {
@@ -11,40 +24,45 @@ import SocketIOClient from "socket.io-client/dist/socket.io.js";
 // };
 
 function Chat({ route }) {
-    const [messages, setMessages] = useState([])
+  const [messages, setMessages] = useState([]);
 
-    // const socket = io("https://mighty-insect-100.loca.lt/", connectionOptions)
-    const socket = SocketIOClient("https://mighty-insect-100.loca.lt/", {
-        jsonp: false,
+  // const socket = io("https://mighty-insect-100.loca.lt/", connectionOptions)
+  const socket = SocketIOClient("https://mighty-insect-100.loca.lt/", {
+    jsonp: false,
+  });
+  useEffect(() => {
+    socket.on("connect", () => {
+      socket.emit("join_room", 123);
     });
-    useEffect(() => {
 
-        socket.on("connect", () => {
-            socket.emit("join_room", 123)
-        });
+    socket.on("messageFromServer", (newmessage) => {
+      console.log(newmessage);
+      setMessages(newmessage);
+    });
+  }, []);
 
-        socket.on("messageFromServer", (newmessage) => {
-            console.log(newmessage);
-            setMessages(newmessage)
-        })
-    }, [])
+  const onSend = useCallback((messages = []) => {
+    setMessages((previousMessages) =>
+      GiftedChat.append(previousMessages, messages)
+    );
+    socket.emit("chatFromClient", {
+      message: messages[messages.length - 1].text,
+      username: "Steven",
+      room: "123",
+    });
+    console.log(messages[messages.length - 1].text);
+  }, []);
 
-    const onSend = useCallback((messages = []) => {
-        setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
-        socket.emit("chatFromClient", { message: messages[messages.length - 1].text, username: 'Steven', room: '123' })
-        console.log(messages[messages.length - 1].text);
-    }, [])
-
-    return (
-        <GiftedChat
-            messages={messages}
-            onSend={messages => onSend(messages)}
-            user={{
-                _id: 1,
-                name: "Staff1"
-            }}
-        />
-    )
+  return (
+    <GiftedChat
+      messages={messages}
+      onSend={(messages) => onSend(messages)}
+      user={{
+        _id: 1,
+        name: "Staff1",
+      }}
+    />
+  );
 }
 
-export default Chat
+export default Chat;

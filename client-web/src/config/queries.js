@@ -37,3 +37,23 @@ export const POST_TRANSACTIONS = gql`
     }
   }
 `;
+
+export const GET_DRIVER = gql`
+  query Query($id: ID!) {
+    getStaff(id: $id) {
+      longitude
+      latitude
+    }
+  }
+`;
+
+export const GET_TRANSACTIONS = gql`
+  query getUserTransactionById($id: ID!) {
+    getUserTransactionById(id: $id) {
+      transaction {
+        longitude
+        latitude
+      }
+    }
+  }
+`;
