@@ -2,18 +2,19 @@ import "../assets/ChatPage.css";
 import io from "socket.io-client";
 import { useState, useEffect } from "react";
 import { Chat } from "../components/ChatBox";
-const connectionOptions = {
-  "force new connection": true,
-  reconnectionAttempts: "Infinity", //avoid having user reconnect manually in order to prevent dead clients after a server restart
-  timeout: 10000, //before connect_error and connect_timeout are emitted.
-  transports: ["websocket"],
-};
-const socket = io.connect("https://witty-skunk-91.loca.lt", connectionOptions);
 
 function ChatPage() {
   const [username, setUsername] = useState("imam");
   const [room, setRoom] = useState("123");
   const [showChat, setShow] = useState(true);
+
+  // const connectionOptions = {
+  //   "force new connection": true,
+  //   reconnectionAttempts: "Infinity", //avoid having user reconnect manually in order to prevent dead clients after a server restart
+  //   timeout: 10000, //before connect_error and connect_timeout are emitted.
+  //   transports: ["websocket"],
+  // };
+  const socket = io("https://witty-skunk-91.loca.lt");
 
   useEffect(() => {
     socket.emit("join_room", "123");
