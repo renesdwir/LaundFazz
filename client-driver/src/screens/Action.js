@@ -202,30 +202,20 @@ function Action({ route, navigation }) {
     <NativeBaseProvider>
       <VStack safeArea>
         <Box mt="3">
-          <Box
-            alignItems="center"
-            alignSelf="center"
-            w="100%"
-            h="24"
-            bg="info.500"
-            _text={{}}
-          >
-            <HStack>
-              <Text
-                fontSize={30}
-                fontWeight="extrabold"
-                mt="5"
-                color="light.50"
-              >
-                {" "}
-                Laund
-              </Text>
-              <Text fontSize={30} fontStyle="italic" mt="5" color="yellow.400">
-                {" "}
-                Fazz
-              </Text>
-            </HStack>
+          <Box alignItems="center" alignSelf="center" w="100%" h="40" bg="info.500" _text={{
+          }}>
+            <Center mt="5">
+              <Image source={{
+                uri: "https://cdn.discordapp.com/attachments/961924831002099712/965423805021446194/logo.png"
+              }} alt="Alternate Text" w="80" h="24"
+              />
+            </Center>;
+            {/* <HStack>
+                            <Text fontSize={30} fontWeight="extrabold" mt="5" color="light.50" > Laund</Text>
+                            <Text fontSize={30} fontStyle="italic" mt="5" color="yellow.400" > Fazz</Text>
+                        </HStack> */}
           </Box>
+          <Input placeholder="Search ID" alignSelf="center" w="96" top="32" fontSize="2xl" position="absolute" variant="filled" width="100%" borderRadius="5" py="3" px="2" borderWidth="3" borderColor="muted.200" InputLeftElement={<Icon ml="3" size="6" color="muted.500" as={<Ionicons name="ios-search" />} />} />
         </Box>
         <Center mt="5" w="100%">
           <Box w="96" h="auto" bg="info.500" rounded="3xl" shadow={3}>
@@ -239,8 +229,8 @@ function Action({ route, navigation }) {
                   Pickup :{" "}
                   {data.getStaffTransactionById.pickupDate !== null
                     ? moment(data.getStaffTransactionById.pickupDate).format(
-                        "DD/MM/YYYY"
-                      )
+                      "DD/MM/YYYY"
+                    )
                     : "-"}
                 </Text>
               </Button>
@@ -249,8 +239,8 @@ function Action({ route, navigation }) {
                   Delivery :{" "}
                   {data.getStaffTransactionById.deliveryDate !== null
                     ? moment(data.getStaffTransactionById.deliveryDate).format(
-                        "DD/MM/YYYY"
-                      )
+                      "DD/MM/YYYY"
+                    )
                     : "-"}
                 </Text>
               </Button>
@@ -282,7 +272,7 @@ function Action({ route, navigation }) {
               }}
             >
               <HStack left="6" mt="2">
-                {data.getStaffTransactionById.Products.map((item) => {
+                {data.getStaffTransactionById.TransactionProducts.map((item) => {
                   return (
                     <Button
                       key={item.id}
@@ -292,7 +282,7 @@ function Action({ route, navigation }) {
                       variant="outline"
                     >
                       <Text fontWeight="bold" color="light.50">
-                        {item.name}
+                        {item.Product.name}
                       </Text>
                     </Button>
                   );
@@ -315,7 +305,7 @@ function Action({ route, navigation }) {
               </Text>
               <Button size="sm" variant="outline">
                 <Text fontWeight="bold" color="light.50">
-                  Rp {data.getStaffTransactionById.totalPrice}
+                  Rp {data.getStaffTransactionById.totalPrice.toLocaleString()}
                 </Text>
               </Button>
             </HStack>
@@ -333,10 +323,10 @@ function Action({ route, navigation }) {
               Maps
             </Heading>
 
-            <Button mt="2" bg="yellow.400">
+            <Button onPress={() => toast.show({ description: "Your position now tracked by customer" })} mt="2" bg="yellow.400">
               <Text fontWeight="bold" color="light.50">
                 {" "}
-                Navigate{" "}
+                Pick Up{" "}
               </Text>
             </Button>
 
@@ -347,7 +337,7 @@ function Action({ route, navigation }) {
             >
               <Text fontWeight="bold" color="light.50">
                 {" "}
-                Laundry Done{" "}
+                Delivered{" "}
               </Text>
             </Button>
 

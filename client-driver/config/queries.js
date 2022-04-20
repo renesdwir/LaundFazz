@@ -1,24 +1,78 @@
 import { gql, useMutation } from "graphql-tag";
 
+// export const GET_STAFFTRANSACTION = gql`
+// query GetStaffTransactions {
+//     getStaffTransactions {
+//       id
+//       CustomerId
+//       StaffId
+//       isPaid
+//       status
+//       pickupDate
+//       deliveryDate
+//       longitude
+//       latitude
+//       totalPrice
+//     }
+//   }
+// `
 export const GET_STAFFTRANSACTION = gql`
 query GetStaffTransactions {
-    getStaffTransactions {
+  getStaffTransactions {
+    id
+    CustomerId
+    StaffId
+    isPaid
+    status
+    pickupDate
+    deliveryDate
+    longitude
+    latitude
+    totalPrice
+    TransactionProducts {
       id
-      CustomerId
-      StaffId
-      isPaid
-      status
-      pickupDate
-      deliveryDate
-      longitude
-      latitude
-      totalPrice
+      TransactionId
+      ProductId
+      Product {
+        id
+        name
+        price
+      }
     }
+    createdAt
   }
+}
 `
+// export const GET_TRANSACTIONDETAIL = gql`
+// query GetStaffTransactionById($getStaffTransactionByIdId: ID!) {
+//   getStaffTransactionById(id: $getStaffTransactionByIdId) {
+//     id
+//     CustomerId
+//     StaffId
+//     isPaid
+//     status
+//     pickupDate
+//     deliveryDate
+//     longitude
+//     latitude
+//     totalPrice
+//     createdAt
+//     Products {
+//       id
+//       name
+//       price
+//       TransactionProduct {
+//         id
+//         TransactionId
+//         ProductId
+//       }
+//     }
+//   }
+// }
+// `
 
 export const GET_TRANSACTIONDETAIL = gql`
-query GetStaffTransactionById($getStaffTransactionByIdId: ID!) {
+query GetStaffTransactions($getStaffTransactionByIdId: ID!) {
   getStaffTransactionById(id: $getStaffTransactionByIdId) {
     id
     CustomerId
@@ -30,17 +84,17 @@ query GetStaffTransactionById($getStaffTransactionByIdId: ID!) {
     longitude
     latitude
     totalPrice
-    createdAt
-    Products {
+    TransactionProducts {
       id
-      name
-      price
-      TransactionProduct {
+      TransactionId
+      ProductId
+      Product {
         id
-        TransactionId
-        ProductId
+        name
+        price
       }
     }
+    createdAt
   }
 }
 `
