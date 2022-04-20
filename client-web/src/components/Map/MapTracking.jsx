@@ -6,7 +6,7 @@ import { fetchRoute } from "../../store/actions/map";
 import { useLazyQuery, useQuery } from "@apollo/client";
 import { GET_DRIVER, GET_TRANSACTIONS_BY_ID } from "../../config/queries";
 
-function MapTracking({ mapIsReadyCallback }) {
+function MapTracking({ mapIsReadyCallback, id }) {
   const mapContainer = useRef(null);
   const coords = useRef({
     lat1: -6.928883448498851,
@@ -39,7 +39,7 @@ function MapTracking({ mapIsReadyCallback }) {
     },
   } = useQuery(GET_TRANSACTIONS_BY_ID, {
     variables: {
-      id: 1,
+      id: id,
     },
     fetchPolicy: "cache-and-network",
     nextFetchPolicy: "cache-and-network",
@@ -154,7 +154,7 @@ function MapTracking({ mapIsReadyCallback }) {
   }, [staff, transactions]);
 
   return (
-    <div className="w-80 h-80">
+    <div className="w-full h-full">
       <div className="map-container" ref={mapContainer}></div>
     </div>
   );

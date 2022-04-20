@@ -11,102 +11,140 @@ export default function DetailPage() {
   const { loading, error, data } = useQuery(GET_BY_ID, {
     variables: { getUserTransactionByIdId: id },
   });
-  console.log(data);
+  // console.log(data, "<<<<<<<<<<<<<<<<<<");
   let obj = {};
-  data?.getUserTransactionById.transaction.Products.map((product) => {
-    if (!obj[product.name]) {
-      obj[product.name] = 1;
-    } else {
-      obj[product.name] += 1;
+  data?.getUserTransactionById.transaction.TransactionProducts.map(
+    (product) => {
+      if (!obj[product.Product.name]) {
+        obj[product.Product.name] = 1;
+      } else {
+        obj[product.Product.name] += 1;
+      }
     }
-  });
-  console.log(obj);
+  );
+  // console.log(obj, "<<<<<<<<<<<<<<<<<<<<<<<<<");
   return (
-    <div className="container mx-auto bg-white pt-[5rem] pb-8">
+    <div className="container mx-auto bg-white pt-[5rem] pb-14">
       <Navbar />
       <div className="px-6 mt-3 flex flex-col">
         <h1 className="text-center font-bold text-2xl text-sky-500">
-          Detail Page
+          Detail Transactions
         </h1>
-        <h1 className="text-center text-lg">
-          Transaction Id: {data?.getUserTransactionById.transaction.id}
-        </h1>
-        <button
-          className={`px-3 py-1 rounded-md ${
-            data?.getUserTransactionById.transaction.status === "pending"
-              ? "text-red-400 bg-red-200"
-              : data?.getUserTransactionById.transaction.status === "onProgress"
-              ? "text-yellow-600 bg-yellow-200"
-              : "text-green-400 bg-green-200"
-          }  mx-auto text-xl `}
-        >
-          {data?.getUserTransactionById.transaction.status}
-        </button>
 
-        <div className="mt-5">
+        <div className="mt-4">
           <div className="map">
-            <h1 className="text-xl underline-offset-8 font-bold text-sky-500 underline my-5">
-              Pickup Location
-            </h1>
             <iframe
               src={`https://maps.google.com/maps?q=${data?.getUserTransactionById.transaction.latitude},  ${data?.getUserTransactionById.transaction.longitude}&z=15&output=embed`}
               height="270"
               frameborder="0"
-              className="mx-auto w-full"
+              className="mx-auto w-full shadow-xl rounded-md"
             ></iframe>
           </div>
-          <div className="mt-9 flex flex-col gap-9">
-            <div className="flex flex-row gap-9">
-              <h1 className="text-xl underline-offset-8 font-bold text-sky-500 underline">
-                List of Item :
+          <div>
+            <div>
+              <h1 className="text-2xl  font-semibold text-sky-500 mt-5">
+                Transaction#{data?.getUserTransactionById.transaction.id}
               </h1>
-              <div className="flex flex-col text-lg gap-1 font-semibold">
+            </div>
+          </div>
+
+          <div className=" flex flex-row justify-between mt-5  p-2 px-4 bg-white  border-sky-500 border-t-8  rounded-md py-5 shadow-xl">
+            {/* <div className="flex flex-col ">
+              <h1 className="text-xs uppercase font-semibold text-slate-400 ">
+                List of Item
+              </h1>
+              <div className="flex flex-col text-lg">
                 {Object.keys(obj).map((item) => {
                   return (
-                    <div className="flex flex-row gap-3">
-                      <h1 className="text-xl">{obj[item]}</h1>
-                      <h1 className="text-xl">{item}</h1>
+                    <div className="flex flex-row gap-3 ">
+                      <h1 className="text-lg  text-slate-800">{obj[item]}</h1>
+                      <h1 className="text-lg  text-slate-800">{item}</h1>
                     </div>
                   );
                 })}
               </div>
-            </div>
-            <div className="flex flex-row gap-10">
-              <h1 className="text-xl underline-offset-8 font-bold text-sky-500 underline">
-                Total Price :
-              </h1>
-              <span className="text-xl  font-semibold">
-                Rp{" "}
-                {new Intl.NumberFormat("id-ID").format(
-                  data?.getUserTransactionById.transaction.totalPrice
-                )}
-              </span>
-            </div>
-            <div className="flex flex-row gap-7">
-              <h1 className="text-xl underline-offset-8 font-bold text-sky-500 underline">
-                Pickup Date :
-              </h1>
-              <span className="text-xl  font-semibold">
-                {data?.getUserTransactionById.transaction.pickupDate === null
-                  ? "( pay first )"
-                  : moment(
-                      data?.getUserTransactionById.transaction.pickupDate
-                    ).format("DD/MM/YYYY")}
-              </span>
-            </div>
-            <div className="flex flex-row gap-3">
-              <h1 className="text-xl underline-offset-8 font-bold text-sky-500 underline">
-                Delivery Date :
-              </h1>
-              <span className="text-xl  font-semibold">
-                {data?.getUserTransactionById.transaction.deliveryDate === null
-                  ? "( pay first )"
-                  : moment(
-                      data?.getUserTransactionById.transaction.deliveryDate
-                    ).format("DD/MM/YYYY")}
-              </span>
+            </div> */}
+            <div className=" flex-1 flex flex-row justify-between ">
+              <div className="flex flex-col">
+                <h1 className="text-xs uppercase font-semibold text-slate-400 ">
+                  List of Item
+                </h1>
+                <div className="flex flex-col text-lg">
+                  {Object.keys(obj).map((item) => {
+                    return (
+                      <div className="flex flex-row gap-3 ">
+                        <h1 className="text-lg  text-slate-800">{obj[item]}</h1>
+                        <h1 className="text-lg  text-slate-800">{item}</h1>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+              {/* <div className="flex flex-col">
+                <h1 className="text-xs uppercase font-semibold text-slate-400 ">
+                  Total Price
+                </h1>
+                <span className="text-lg text-center text-slate-800">
+                  Rp{" "}
+                  {new Intl.NumberFormat("id-ID").format(
+                    data?.getUserTransactionById.transaction.totalPrice
+                  )}
+                </span>
+              </div> */}
+              <div className="flex flex-col">
+                <h1 className="text-xs uppercase font-semibold text-slate-400 ">
+                  Pickup date
+                </h1>
+                <span className="mb-5 text-lg   text-slate-800">
+                  {data?.getUserTransactionById.transaction.pickupDate === null
+                    ? "-"
+                    : moment(
+                        data?.getUserTransactionById.transaction.pickupDate
+                      ).format("DD/MM/YYYY")}
+                </span>
+                <h1 className="text-xs uppercase font-semibold text-slate-400 ">
+                  Delivery date
+                </h1>
+                <span className="text-lg   text-slate-800">
+                  {data?.getUserTransactionById.transaction.deliveryDate ===
+                  null
+                    ? "-"
+                    : moment(
+                        data?.getUserTransactionById.transaction.deliveryDate
+                      ).format("DD/MM/YYYY")}
+                </span>
+              </div>
+              <div className="flex flex-col">
+                <h1 className="uppercase text-xs text-left font-semibold text-slate-400 ">
+                  Status
+                </h1>
+                <span
+                  className={`mb-5 ${
+                    data?.getUserTransactionById.transaction.status ===
+                    "pending"
+                      ? "text-red-400 "
+                      : data?.getUserTransactionById.transaction.status ===
+                        "onProgress"
+                      ? "text-yellow-400"
+                      : "text-green-400 "
+                  } text-lg font-semibold  uppercase`}
+                >
+                  {data?.getUserTransactionById.transaction.status}
+                </span>
+                <h1 className="text-xs uppercase font-semibold text-slate-400 ">
+                  Total Price
+                </h1>
+                <span className="text-lg text-left text-slate-800">
+                  Rp{" "}
+                  {new Intl.NumberFormat("id-ID").format(
+                    data?.getUserTransactionById.transaction.totalPrice
+                  )}
+                </span>
+              </div>
             </div>
           </div>
+          {/* sini */}
+          {/* end sini */}
 
           <div className="flex flex-row justify-evenly mt-8">
             {data?.getUserTransactionById.transaction.status === "pending" ? (
@@ -117,17 +155,21 @@ export default function DetailPage() {
                 Bayar
               </a>
             ) : (
-              <button className="px-8 py-2 bg-green-500 text-white rounded-lg text-2xl">
+              <Link
+                to={`/form/map/${data?.getUserTransactionById.transaction.id}`}
+                className="px-8 py-2 bg-sky-500 text-white rounded-lg text-xl"
+              >
                 Tracking
-              </button>
+              </Link>
             )}
-
-            <Link
-              to="/chat"
-              className="px-3 py-2 bg-purple-500 text-white  rounded-lg text-2xl"
-            >
-              Chat Driver
-            </Link>
+            {data?.getUserTransactionById.transaction.status !== "pending" && (
+              <Link
+                to="/chat"
+                className="px-3 py-2 bg-yellow-400 text-white  rounded-lg text-xl"
+              >
+                Chat Driver
+              </Link>
+            )}
           </div>
         </div>
       </div>
