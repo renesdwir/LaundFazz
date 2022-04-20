@@ -179,7 +179,7 @@ function Action({ route, navigation }) {
         console.log(count.current);
         console.log(longitude + "", latitude + "");
 
-        count.current += 1;
+        count.current += 2;
       }, 10000);
       return () => {
         stopForegroundUpdate();

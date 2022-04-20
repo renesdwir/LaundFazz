@@ -7,7 +7,7 @@ import {
 } from "@apollo/client";
 
 const client = new ApolloClient({
-  uri: "http://5aac-158-140-175-209.ngrok.io",
+  uri: "https://yellow-horse-59.loca.lt/",
   cache: new InMemoryCache(),
 });
 
