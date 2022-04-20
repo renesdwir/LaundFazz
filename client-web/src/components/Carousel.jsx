@@ -34,14 +34,14 @@ export default function App() {
             <div className="w-16 h-16 mx-auto mb-4">
               <img
                 className="rounded-full text-center"
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Elon_Musk_2015.jpg/640px-Elon_Musk_2015.jpg"
+                src="https://cdn.discordapp.com/attachments/961924831002099712/966404841549205525/1508815757780.jpg"
                 alt=""
               />
             </div>
-            <h1 className="font-semibold text-xl">Elon Musk</h1>
+            <h1 className="font-semibold text-xl">Bintang M W</h1>
             <span className="">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem
-              perferendis,
+              Proses laundry dilakukan dengan sangat teliti dan hati-hati untuk
+              setiap kamar. hasilnya sangat memuaskan dalam 24 jam.
             </span>
           </div>
         </SwiperSlide>
@@ -50,14 +50,14 @@ export default function App() {
             <div className="w-16 h-16 mx-auto mb-4">
               <img
                 className="rounded-full text-center"
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Elon_Musk_2015.jpg/640px-Elon_Musk_2015.jpg"
+                src="https://cdn.discordapp.com/attachments/961924831002099712/966405186681729145/Screenshot_117.png"
                 alt=""
               />
             </div>
-            <h1 className="font-semibold text-xl">Elon Musk</h1>
+            <h1 className="font-semibold text-xl">Rio Ricad</h1>
             <span className="">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem
-              perferendis,
+              Laundfazz datang tepat waktu dan melakukan laundry selama 1 hari.
+              Saya sangat puas karena staff sopan dan ramah.
             </span>
           </div>
         </SwiperSlide>
@@ -66,14 +66,14 @@ export default function App() {
             <div className="w-16 h-16 mx-auto mb-4">
               <img
                 className="rounded-full text-center"
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Elon_Musk_2015.jpg/640px-Elon_Musk_2015.jpg"
+                src="https://cdn.discordapp.com/attachments/961924831002099712/966407903911215154/Screen_Shot_2022-04-21_at_01.39.47.png"
                 alt=""
               />
             </div>
-            <h1 className="font-semibold text-xl">Elon Musk</h1>
+            <h1 className="font-semibold text-xl">Steven</h1>
             <span className="">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem
-              perferendis,
+              Pekerjaan rapih banget. Drivernya juga datang tepat waktu dan
+              ramah.
             </span>
           </div>
         </SwiperSlide>
