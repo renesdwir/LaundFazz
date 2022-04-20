@@ -10,7 +10,7 @@ import { GiftedChat } from "react-native-gifted-chat";
 // };
 
 // const socketUrl = "http://localhost:3002";
-const socket = io("http://localhost:3002");
+const socket = io("https://d49f-158-140-175-209.ngrok.io");
 // const socket = io(socketUrl);
 const Chat = () => {
   // const [socket, setSocket] = useState(null);

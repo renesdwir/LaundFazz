@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useRef, useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import { MdOutlineGpsFixed } from "react-icons/md";
 import { GET_PRODUCTS } from "../config/queries";
@@ -38,8 +38,15 @@ export default function FormPage() {
   }, []);
   function findMe() {
     geoRef.current.trigger();
-    navigator.geolocation.getCurrentPosition((e) => {
-      const { longitude: lon, latitude: lat } = e.coords;
+    navigator.geolocation.getCurrentPosition(success, error, {
+      enableHighAccuracy: true,
+      maximumAge: Infinity,
+    });
+    function error(err) {
+      console.error(`ERROR(${err.code}): ${err.message}`);
+    }
+    function success(geolocation) {
+      const { longitude: lon, latitude: lat } = geolocation.coords;
       dispatch(fetchAdress({ lon, lat })).then((res) => {
         setAddress({
           ...address,
@@ -58,7 +65,7 @@ export default function FormPage() {
       ).then((res) => {
         setDistance(res.features?.[0]?.properties?.distance / 1000);
       });
-    });
+    }
   }
 
   const formHandler = async (e) => {
