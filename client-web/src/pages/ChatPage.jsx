@@ -1,6 +1,6 @@
 import "../assets/ChatPage.css";
 import io from "socket.io-client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Chat } from "../components/ChatBox";
 const connectionOptions = {
   "force new connection": true,
@@ -8,12 +8,16 @@ const connectionOptions = {
   timeout: 10000, //before connect_error and connect_timeout are emitted.
   transports: ["websocket"],
 };
-const socket = io.connect("http://localhost:3002", connectionOptions);
+const socket = io.connect("https://witty-skunk-91.loca.lt", connectionOptions);
 
 function ChatPage() {
-  const [username, setUsername] = useState("");
-  const [room, setRoom] = useState("");
-  const [showChat, setShow] = useState(false);
+  const [username, setUsername] = useState("imam");
+  const [room, setRoom] = useState("123");
+  const [showChat, setShow] = useState(true);
+
+  useEffect(() => {
+    socket.emit("join_room", "123");
+  }, []);
 
   const joinRoom = () => {
     if (username !== "" && room !== "") {
