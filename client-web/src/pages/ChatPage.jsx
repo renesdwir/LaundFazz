@@ -14,7 +14,7 @@ function ChatPage() {
   //   timeout: 10000, //before connect_error and connect_timeout are emitted.
   //   transports: ["websocket"],
   // };
-  const socket = io("https://witty-skunk-91.loca.lt");
+  const socket = io("https://d49f-158-140-175-209.ngrok.io");
 
   useEffect(() => {
     socket.emit("join_room", "123");

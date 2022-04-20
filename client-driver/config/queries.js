@@ -30,17 +30,17 @@ query GetStaffTransactionById($getStaffTransactionByIdId: ID!) {
     longitude
     latitude
     totalPrice
-    createdAt
-    Products {
+    TransactionProducts {
       id
-      name
-      price
-      TransactionProduct {
+      TransactionId
+      ProductId
+      Product {
         id
-        TransactionId
-        ProductId
+        name
+        price
       }
     }
+    createdAt
   }
 }
 `

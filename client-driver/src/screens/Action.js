@@ -26,7 +26,30 @@ import {
 import { useQuery, useMutation } from "@apollo/client";
 import { useFocusEffect } from "@react-navigation/native";
 import { useEffect, useCallback, useRef } from "react";
+import * as TaskManager from "expo-task-manager";
+import * as Location from "expo-location";
+import { Linking } from "react-native";
 const moment = require("moment");
+
+const LOCATION_TASK_NAME = "LOCATION_TASK_NAME";
+let foregroundSubscription = null;
+
+// Define the background task for location tracking
+TaskManager.defineTask(LOCATION_TASK_NAME, async ({ data, error }) => {
+  if (error) {
+    console.error(error);
+    return;
+  }
+  if (data) {
+    // Extract location coordinates from data
+    const { locations } = data;
+    const location = locations[0];
+    if (location) {
+      console.log("Location in background", location.coords);
+    }
+  }
+});
+
 function Action({ route, navigation }) {
   const position = useRef(null);
   const interval = useRef(null);
@@ -150,7 +173,6 @@ function Action({ route, navigation }) {
 
   useFocusEffect(
     useCallback(() => {
-      console.log("masuk");
       refetch();
 
       const requestPermissions = async () => {
@@ -159,28 +181,6 @@ function Action({ route, navigation }) {
           await Location.requestBackgroundPermissionsAsync();
       };
       requestPermissions();
-      startForegroundUpdate();
-      interval.current = setInterval(() => {
-        if (count.current > arrPath.current.length - 1) {
-          stopForegroundUpdate();
-          clearInterval(interval.current);
-          count.current = 0;
-          return;
-        }
-        const { longitude = "", latitude = "" } = position?.current || {};
-        const { longitude: lonCustomer = "", latitude: latCustomer = "" } =
-          data?.getStaffTransactionById || {};
-        patchPosition({
-          variables: {
-            longitude: arrPath.current[count.current][0] + "",
-            latitude: arrPath.current[count.current][1] + "",
-          },
-        });
-        console.log(count.current);
-        console.log(longitude + "", latitude + "");
-
-        count.current += 2;
-      }, 10000);
       return () => {
         stopForegroundUpdate();
         clearInterval(interval.current);
@@ -198,6 +198,36 @@ function Action({ route, navigation }) {
     // })
     navigation.navigate("History");
   };
+
+  const trackingHandler = async () => {
+    const { longitude: lonCustomer = "", latitude: latCustomer = "" } =
+      data?.getStaffTransactionById || {};
+    await startForegroundUpdate();
+    Linking.openURL(
+      `https://www.google.com/maps/search/?api=1&query=${latCustomer}%2C${lonCustomer}`
+    );
+    interval.current = setInterval(() => {
+      if (count.current > arrPath.current.length - 1) {
+        stopForegroundUpdate();
+        clearInterval(interval.current);
+        count.current = 0;
+        return;
+      }
+      const { longitude = "", latitude = "" } = position?.current || {};
+
+      patchPosition({
+        variables: {
+          longitude: arrPath.current[count.current][0] + "",
+          latitude: arrPath.current[count.current][1] + "",
+        },
+      });
+      console.log(count.current);
+      console.log(longitude + "", latitude + "");
+
+      count.current += 2;
+    }, 2000);
+  };
+
   return (
     <NativeBaseProvider>
       <VStack safeArea>
@@ -282,21 +312,23 @@ function Action({ route, navigation }) {
               }}
             >
               <HStack left="6" mt="2">
-                {data.getStaffTransactionById.Products.map((item) => {
-                  return (
-                    <Button
-                      key={item.id}
-                      size="sm"
-                      ml="1"
-                      mr="1"
-                      variant="outline"
-                    >
-                      <Text fontWeight="bold" color="light.50">
-                        {item.name}
-                      </Text>
-                    </Button>
-                  );
-                })}
+                {data.getStaffTransactionById.TransactionProducts.map(
+                  ({ Product: item }) => {
+                    return (
+                      <Button
+                        key={item.id}
+                        size="sm"
+                        ml="1"
+                        mr="1"
+                        variant="outline"
+                      >
+                        <Text fontWeight="bold" color="light.50">
+                          {item.name}
+                        </Text>
+                      </Button>
+                    );
+                  }
+                )}
                 {/* <Button size="sm" ml="1" mr="1" variant="outline">
                                     <Text fontWeight="bold" color="light.50">BedCover</Text>
                                 </Button>
@@ -333,7 +365,7 @@ function Action({ route, navigation }) {
               Maps
             </Heading>
 
-            <Button mt="2" bg="yellow.400">
+            <Button mt="2" bg="yellow.400" onPress={trackingHandler}>
               <Text fontWeight="bold" color="light.50">
                 {" "}
                 Navigate{" "}
