@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 const moment = require("moment");
 
 export default function Card({ data }) {
-  // console.log(data);
   return (
     <Link
       to={`/detail/${data.id}`}
@@ -31,7 +30,11 @@ export default function Card({ data }) {
             <h1 className="text-xs text-slate-400 uppercase text-right">
               Pickup date
             </h1>
-            <h1 className="text-lg text-slate-800 text-right">
+            <h1
+              className={`text-lg text-slate-800 ${
+                data?.pickupDate === null ? "text-center" : "text-right"
+              } `}
+            >
               {data?.pickupDate === null
                 ? "-"
                 : moment(data.pickupDate).format("DD/MM/YYYY")}

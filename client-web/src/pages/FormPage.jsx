@@ -108,6 +108,7 @@ export default function FormPage() {
     total += Math.floor(Math.floor(distance) * 4000);
     return new Intl.NumberFormat("id-ID").format(total);
   }
+
   return (
     <>
       <div className="container mx-auto bg-white pt-[5rem]">
@@ -116,6 +117,7 @@ export default function FormPage() {
           <h1 className="mx-auto text-4xl font-semibold my-8 text-sky-500">
             Order Form
           </h1>
+
           <form
             onSubmit={formHandler}
             className="form p-5 border border-slate-500 rounded-lg mb-10"

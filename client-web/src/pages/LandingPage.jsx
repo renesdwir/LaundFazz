@@ -28,49 +28,6 @@ export default function LandingPage() {
     <>
       <div className="container mx-auto bg-white pt-[3.7rem]">
         <Navbar />
-        {/* navbar */}
-        {/* <div className="w-full px-6 bg-sky-500 py-4 flex flex-row justify-between fixed top-0 left-0 z-50">
-          <div className="text-white text-xl font-semibold">
-            <img src={logo} alt="" className="h-12" />
-          </div>
-          {click ? (
-            <FiX
-              onClick={() => setClick(!click)}
-              className="my-auto text-2xl text-white"
-            />
-          ) : (
-            <FiMenu
-              onClick={() => setClick(!click)}
-              className="my-auto text-2xl text-white"
-            />
-          )}
-        </div>
-        <div
-          // atas
-          className={`bg-sky-500 text-white fixed left-0 right-0 ${
-            click ? "top-[4.9rem]" : "top-[-400px]"
-          } text-center text-xl z-10 transition-all duration-500 ease pb-5`}
-          // samping
-          // className={`bg-sky-500 text-white fixed top-[4.9rem]  ${
-          //   click ? "right-0 left-0" : "left-[1000px] right-[-1000px]"
-          // } text-center text-xl z-10 transition-all duration-500 ease pb-5`}
-        >
-          <ul>
-            <li className="p-5 hover:bg-blue-800">
-              <a href="">Home</a>
-            </li>
-            <li className="p-5 hover:bg-blue-800">
-              <a href="">Form</a>
-            </li>
-            <li className="p-5 hover:bg-blue-800">
-              <a href="">My History</a>
-            </li>
-            <li className="p-5 hover:bg-blue-800">
-              <a href="">Login</a>
-            </li>
-          </ul>
-        </div> */}
-        {/* end navbar */}
 
         <div onClick={() => setClick(false)}>
           {/* hero */}
@@ -82,10 +39,10 @@ export default function LandingPage() {
             }}
           >
             <div className="my-auto pt-[8rem] text-white drop-shadow-2xl">
-              <h1 className="text-4xl font-semibold">Ini Kata Katanya</h1>
-              <p className="text-lg mt-5">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Error,
-                vitae
+              <h1 className="text-4xl font-semibold">Laundry at its Finest</h1>
+              <p className="text-lg mt-5 px-6">
+                We collect, clean, and deliver your laundry and dry cleaning
+                back to your home, in as little as 24 Hours.
               </p>
               <button className="px-5 py-3 rounded-2xl  bg-sky-500 text-lg  mt-8 hover:bg-blue-800">
                 <Link to="/form">Get Started</Link>
@@ -97,7 +54,8 @@ export default function LandingPage() {
           {/* How */}
           <div className="px-2 pb-5 bg-slate-100">
             <h1 className="uppercase text-center text-2xl font-bold py-12 text-sky-500">
-              Langkah Pemesanan
+              Follow this three <br />
+              simple steps
             </h1>
             <div className="flex flex-col justify-center">
               <div className="mb-10">
@@ -106,13 +64,11 @@ export default function LandingPage() {
               </div>
               <div className="mb-10">
                 <AiOutlineForm className="mb-3 mx-auto text-[3rem] " />
-                <h1 className="  text-xl text-center">Isi Form Dengan Benar</h1>
+                <h1 className="  text-xl text-center">Fill your order form</h1>
               </div>
               <div className="mb-10">
                 <GiWashingMachine className="mb-3 mx-auto text-[3rem] " />
-                <h1 className="  text-xl text-center">
-                  Nikmati Pelayanan Terbaik Kami
-                </h1>
+                <h1 className="  text-xl text-center">Enjoy our service</h1>
               </div>
             </div>
           </div>
@@ -129,36 +85,36 @@ export default function LandingPage() {
                 <h1 className="mt-3 text-lg font-semibold uppercase">
                   Trusted
                 </h1>
-                <span>Lorem ipsum dolor sit.</span>
+                {/* <span>90% </span> */}
               </div>
               <div className="card border border-slate-400 rounded-lg shadow-xl w-36 p-4 text-center">
                 <MdLocalLaundryService className="text-sky-500 text-[4rem] mx-auto" />
                 <h1 className="mt-3 text-lg font-semibold uppercase">Easy</h1>
-                <span>Lorem ipsum dolor sit.</span>
+                {/* <span>Lorem ipsum dolor sit.</span> */}
               </div>
               <div className="card border border-slate-400 rounded-lg shadow-xl w-36 p-4 text-center">
                 <FaShippingFast className="text-sky-500 text-[4rem] mx-auto" />
                 <h1 className="mt-3 text-lg font-semibold uppercase">Fast</h1>
-                <span>Lorem ipsum dolor sit.</span>
+                {/* <span>Lorem ipsum dolor sit.</span> */}
               </div>
               <div className="card border border-slate-400 rounded-lg shadow-xl w-36 p-4 text-center">
                 <MdDryCleaning className="text-sky-500 text-[4rem] mx-auto" />
                 <h1 className="mt-3 text-lg font-semibold uppercase">Clean</h1>
-                <span>Lorem ipsum dolor sit.</span>
+                {/* <span>Lorem ipsum dolor sit.</span> */}
               </div>
               <div className="card border border-slate-400 rounded-lg shadow-xl w-36 p-4 text-center">
                 <MdOutlineDeliveryDining className="text-sky-500 text-[4rem] mx-auto" />
                 <h1 className="mt-3 text-lg font-semibold uppercase">
                   Pick Up
                 </h1>
-                <span>Lorem ipsum dolor sit.</span>
+                {/* <span>Lorem ipsum dolor sit.</span> */}
               </div>
               <div className="card border border-slate-400 rounded-lg shadow-xl w-36 p-4 text-center">
                 <AiFillCreditCard className="text-sky-500 text-[4rem] mx-auto" />
                 <h1 className="mt-3 text-lg font-semibold uppercase">
                   Payment
                 </h1>
-                <span>Lorem ipsum dolor sit.</span>
+                {/* <span>Lorem ipsum dolor sit.</span> */}
               </div>
             </div>
           </div>
@@ -167,7 +123,7 @@ export default function LandingPage() {
           {/* apa kata mereka */}
           <div className="carousel h-96 text-center bg-sky-500">
             <h1 className="uppercase text-center text-2xl font-bold py-6 pt-10 text-white">
-              Apa Kata Mereka
+              What our customers say
             </h1>
             <div className="h-72 ">
               <Carousel />
@@ -181,10 +137,11 @@ export default function LandingPage() {
               About Us
             </h1>
             <div className="flex flex-col justify-center px-6">
-              <p className="text-justify indent-8 text-lg">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Reiciendis porro explicabo obcaecati dolores earum! Nam earum
-                cum molestiae officiis quasi.
+              <p className="text-justify  text-lg">
+                Door-to-door service, free next-day delivery, 24/7 ordering?
+                What more could you want? Click “Get Started” to use “Laundfazz
+                on the web or alternatively find us on your app store by
+                searching “Laundfazz.”
               </p>
             </div>
           </div>
