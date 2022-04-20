@@ -2,7 +2,10 @@ import {
   NativeBaseProvider,
   Input,
   Icon,
+  Image,
+  Radio,
   Button,
+  Badge,
   Stack,
   TextArea,
   Text,
@@ -17,7 +20,8 @@ import {
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { GET_STAFFTRANSACTION } from "../../config/queries";
 import { useQuery } from "@apollo/client";
-import { useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
+// import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { useFocusEffect } from "@react-navigation/native";
 const moment = require("moment");
 
@@ -43,6 +47,17 @@ function Home({ navigation }) {
     }, [])
   );
 
+  useFocusEffect(
+    useCallback(() => {
+      refetch();
+      // console.log(data);
+      return () => {
+        // Do something when the screen is unfocused
+        // Useful for cleanup functions
+      };
+    }, [])
+  );
+
   if (loading) return null;
   if (error) return null;
 
@@ -50,7 +65,6 @@ function Home({ navigation }) {
     return e.status === "onProgress";
   });
 
-  console.log(list);
   return (
     <NativeBaseProvider>
       <VStack safeArea>
@@ -59,31 +73,31 @@ function Home({ navigation }) {
             alignItems="center"
             alignSelf="center"
             w="100%"
-            h="24"
+            h="40"
             bg="info.500"
             _text={{}}
           >
-            <HStack>
-              <Text
-                fontSize={30}
-                fontWeight="extrabold"
-                mt="5"
-                color="light.50"
-              >
-                {" "}
-                Laund
-              </Text>
-              <Text fontSize={30} fontStyle="italic" mt="5" color="yellow.400">
-                {" "}
-                Fazz
-              </Text>
-            </HStack>
+            <Center mt="5">
+              <Image
+                source={{
+                  uri: "https://cdn.discordapp.com/attachments/961924831002099712/965423805021446194/logo.png",
+                }}
+                alt="Alternate Text"
+                w="80"
+                h="24"
+              />
+            </Center>
+            ;
+            {/* <HStack>
+                            <Text fontSize={30} fontWeight="extrabold" mt="5" color="light.50" > Laund</Text>
+                            <Text fontSize={30} fontStyle="italic" mt="5" color="yellow.400" > Fazz</Text>
+                        </HStack> */}
           </Box>
           <Input
             placeholder="Search ID"
             alignSelf="center"
             w="96"
-            top="70"
+            top="32"
             fontSize="2xl"
             position="absolute"
             variant="filled"
@@ -132,7 +146,7 @@ function Home({ navigation }) {
                       <Text left="7" mt="3" fontWeight="bold" color="light.50">
                         ID: Transaction#{transaction.id}
                       </Text>
-                      <Divider mt="2"></Divider>
+                      <Divider mt="2" thickness="5" bg="yellow.400"></Divider>
                       <HStack left="6" mt="3">
                         <Button size="sm" m="1" variant="outline">
                           <Text color="light.50">
@@ -160,11 +174,11 @@ function Home({ navigation }) {
                         <Text mt="2" mr="4" fontWeight="bold" color="light.50">
                           Total Price :{" "}
                         </Text>
-                        <Button size="sm" variant="outline">
+                        <Badge size="sm" mt="1" bg="#facc15">
                           <Text fontWeight="bold" color="light.50">
-                            Rp {transaction.totalPrice}
+                            Rp {transaction.totalPrice.toLocaleString()}
                           </Text>
-                        </Button>
+                        </Badge>
                       </HStack>
                     </Box>
                   </Pressable>

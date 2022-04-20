@@ -7,7 +7,7 @@ import {
 } from "@apollo/client";
 
 const client = new ApolloClient({
-  uri: "https://breezy-pug-25.loca.lt",
+  uri: "https://calm-goose-81.loca.lt",
   cache: new InMemoryCache(),
 });
 

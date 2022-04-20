@@ -6,6 +6,7 @@ import {
   Divider,
   HStack,
   Heading,
+  Badge,
   Button,
   Text,
   Pressable,
@@ -22,6 +23,7 @@ import {
   GET_TRANSACTIONDETAIL,
 } from "../../config/queries";
 const moment = require("moment");
+
 function History({ navigation }) {
   const [showModal, setShowModal] = useState(false);
 
@@ -59,9 +61,10 @@ function History({ navigation }) {
   };
   // console.log(data.getStaffTransactions);
   let histories = data.getStaffTransactions.filter((e) => {
+    // console.log(e.id);
     return e.status === "done";
   });
-  console.log(dataD, "<<<<<<");
+
   return (
     <NativeBaseProvider>
       <VStack safeArea>
@@ -122,11 +125,25 @@ function History({ navigation }) {
                     key={history.id}
                     onPress={() => handlerOpenModal(history.id)}
                   >
-                    <Box w="96" h="20" bg="info.500" rounded="3xl" shadow={3}>
-                      <Text left="7" mt="3" fontWeight="bold" color="light.50">
+                    <Box w="96" h="24" bg="info.500" rounded="xl" shadow={3}>
+                      <Text
+                        left="7"
+                        mt="3"
+                        mb="3"
+                        fontWeight="bold"
+                        color="light.50"
+                      >
                         ID: Transaction#{history.id}
                       </Text>
-                      <Text left="7" mt="3" fontWeight="bold" color="light.50">
+                      <Divider thickness="5" bg="yellow.400"></Divider>
+
+                      <Text
+                        left="7"
+                        mt="3"
+                        mb="3"
+                        fontWeight="bold"
+                        color="light.50"
+                      >
                         Delivered Date :{" "}
                         {history.pickupDate !== null
                           ? moment(history.pickupDate).format("DD/MM/YYYY")
@@ -140,6 +157,7 @@ function History({ navigation }) {
           </ScrollView>
         </Center>
       </VStack>
+
       <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
         <Modal.Content h="auto" w="96">
           <Modal.CloseButton />
@@ -203,34 +221,39 @@ function History({ navigation }) {
                   minW: "md",
                 }}
               >
-                {/* <HStack left="6" mt="2">
-                  {dataD.getStaffTransactionById.Products.map((item) => {
-                    return (
-                      <Button
-                        key={item.id}
-                        size="sm"
-                        ml="1"
-                        mr="1"
-                        variant="outline"
-                      >
-                        <Text fontWeight="bold" color="light.50">
-                          {item.name}
-                        </Text>
-                      </Button>
-                    );
-                  })}
-     
-                </HStack> */}
+                <HStack left="6" mt="2">
+                  {dataD.getStaffTransactionById.TransactionProducts.map(
+                    (item) => {
+                      return (
+                        <Button
+                          key={item.id}
+                          size="sm"
+                          ml="1"
+                          mr="1"
+                          variant="outline"
+                        >
+                          <Text fontWeight="bold" color="light.50">
+                            {item.Product.name}
+                          </Text>
+                        </Button>
+                      );
+                    }
+                  )}
+                </HStack>
               </ScrollView>
               <HStack left="6" mb="5" mt="5">
                 <Text mt="2" mr="4" fontWeight="bold" color="light.50">
                   Total Price :{" "}
                 </Text>
-                <Button size="sm" variant="outline">
+                {/* <Button size="sm" variant="outline">
+                                    <Text fontWeight="bold" color="light.50">Rp {dataD.getStaffTransactionById.totalPrice.toLocaleString()}</Text>
+                                </Button> */}
+                <Badge size="sm" mt="1" bg="#facc15">
                   <Text fontWeight="bold" color="light.50">
-                    Rp {dataD.getStaffTransactionById.totalPrice}
+                    Rp{" "}
+                    {dataD.getStaffTransactionById.totalPrice.toLocaleString()}
                   </Text>
-                </Button>
+                </Badge>
               </HStack>
             </Box>
           </Modal.Body>

@@ -47,16 +47,18 @@ export const POST_TRANSACTIONS = gql`
 `;
 
 export const GET_TRANSACTIONS = gql`
-  query GetUserTransactions {
+  query Query {
     getUserTransactions {
       id
       pickupDate
       totalPrice
-      Products {
-        name
-      }
       isPaid
       createdAt
+      TransactionProducts {
+        Product {
+          name
+        }
+      }
     }
   }
 `;
@@ -82,8 +84,10 @@ export const GET_BY_ID = gql`
         longitude
         latitude
         totalPrice
-        Products {
-          name
+        TransactionProducts {
+          Product {
+            name
+          }
         }
       }
       data {
