@@ -2,15 +2,15 @@ import { ScrollView, View, Text, TextInput, Button } from "react-native";
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import io from "socket.io-client";
 import { GiftedChat } from "react-native-gifted-chat";
-const connectionOptions = {
-  "force new connection": true,
-  reconnectionAttempts: "Infinity", //avoid having user reconnect manually in order to prevent dead clients after a server restart
-  timeout: 10000, //before connect_error and connect_timeout are emitted.
-  transports: ["websocket"],
-};
+// const connectionOptions = {
+//   "force new connection": true,
+//   reconnectionAttempts: "Infinity", //avoid having user reconnect manually in order to prevent dead clients after a server restart
+//   timeout: 10000, //before connect_error and connect_timeout are emitted.
+//   transports: ["websocket"],
+// };
 
-const socketUrl = "http://localhost:3002";
-const socket = io(socketUrl, connectionOptions);
+// const socketUrl = "http://localhost:3002";
+const socket = io("http://localhost:3002");
 // const socket = io(socketUrl);
 const Chat = () => {
   // const [socket, setSocket] = useState(null);
@@ -110,7 +110,7 @@ const Chat = () => {
       placeholder="Type a message..."
       isTyping={true}
       user={{
-        _id: "client",
+        _id: "Staff - Renes",
       }}
     />
   );
