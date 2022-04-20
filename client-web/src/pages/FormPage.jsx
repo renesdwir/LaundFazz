@@ -69,7 +69,7 @@ export default function FormPage() {
       total = +el.price + total;
       arr.push(+el.id);
     });
-    total += Math.floor(distance * 4000);
+    total += Math.floor(Math.floor(distance) * 4000);
     // console.log(address.lat.toString(), address.lon.toString());
     await addForm({
       variables: {
@@ -105,7 +105,7 @@ export default function FormPage() {
     formProduct.map((item) => {
       total += +item.price;
     });
-    total += Math.floor(distance * 4000);
+    total += Math.floor(Math.floor(distance) * 4000);
     return new Intl.NumberFormat("id-ID").format(total);
   }
   return (
@@ -114,11 +114,11 @@ export default function FormPage() {
         <Navbar />
         <div className=" h-[70rem] flex flex-col px-6 ">
           <h1 className="mx-auto text-4xl font-semibold my-8 text-sky-500">
-            LaundFazz Form
+            Order Form
           </h1>
           <form
             onSubmit={formHandler}
-            className="form p-5 border border-slate-500 rounded-lg"
+            className="form p-5 border border-slate-500 rounded-lg mb-10"
           >
             <div className="flex flex-row justify-between">
               <h1 className="text-xl uppercase mb-4 w-full  text-sky-500 text-left">
@@ -131,10 +131,10 @@ export default function FormPage() {
             <div className="w-full flex justify-center mt-3">
               <button
                 type="button"
-                className=" text-white bg-sky-500 hover:bg-sky-600 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                className=" text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                 onClick={findMe}
               >
-                Find me
+                Find Me
               </button>
             </div>
             <div>
@@ -179,7 +179,7 @@ export default function FormPage() {
                     {formProduct.length > 1 && (
                       <span
                         onClick={() => handleDeleteProduct(index)}
-                        className="bg-red-500 my-auto px-3 py-1 w-fit rounded-md  text-white"
+                        className="bg-red-500 my-auto px-5 py-2.5 w-fit rounded-md  text-white"
                       >
                         Del
                       </span>
@@ -193,7 +193,7 @@ export default function FormPage() {
                   {formProduct.length - 1 === index && (
                     <span
                       onClick={handleFormProduct}
-                      className="bg-green-500 px-2 py-1 w-fit rounded-md mt-2 text-white"
+                      className="bg-yellow-400 px-5 py-2.5 w-fit rounded-md mt-2 text-white"
                     >
                       Add More
                     </span>
@@ -202,18 +202,45 @@ export default function FormPage() {
               ))}
 
               {/* end select */}
-              <div className="border flex flex-col p-2 gap-2 mt-14 border-sky-500 rounded-md">
-                <span className=" text-xl">
-                  Total Item :{" "}
-                  {formProduct[0].product === "" ? 0 : formProduct.length} pcs
-                </span>
-                <span className="text-xl">Distance: {distance} Km</span>
-                <span className=" text-xl">
-                  Total Price : Rp.{handlePrice()}
-                </span>
+              <div className="border flex flex-col p-2 mt-14 border-sky-500 rounded-md w-fit mx-auto shadow-xl">
+                <h1 className="text-2xl text-sky-500 text-center font-semibold">
+                  Summary
+                </h1>
+                <div className="flex flex-row justify-between  gap-10 py-5 px-5">
+                  <div>
+                    <span className=" text-xl flex flex-col text-slate-900 mb-3">
+                      <span className="text-sm text-slate-400">Total Item</span>
+                      {formProduct[0].product === ""
+                        ? 0
+                        : formProduct.length}{" "}
+                      item
+                    </span>
+                    <span className="text-xl flex flex-col text-slate-900">
+                      <span className="text-sm text-slate-400">Distance</span>{" "}
+                      {Math.floor(distance)} Km
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-xl flex flex-col text-slate-900 mb-3">
+                      <span className="text-sm text-slate-400">
+                        Delivery Fee
+                      </span>
+                      Rp.{" "}
+                      {new Intl.NumberFormat("id-ID").format(
+                        Math.floor(Math.floor(distance) * 4000)
+                      )}
+                    </span>
+                    <span className="text-xl flex flex-col text-slate-900">
+                      <span className="text-sm text-slate-400">
+                        Total Price
+                      </span>
+                      Rp. {handlePrice()}
+                    </span>
+                  </div>
+                </div>
               </div>
-              <div className="flex">
-                <button className="text-xl mx-auto bg-sky-500 text-white px-4 py-2 rounded-2xl mt-3">
+              <div className="flex mt-8">
+                <button className="text-xl mx-auto bg-sky-500 text-white px-5 py-2.5 rounded-md mt-3">
                   Laundry Now
                 </button>
               </div>

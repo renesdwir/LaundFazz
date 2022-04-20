@@ -13,7 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/form" element={<FormPage />} />
-        <Route path="/form/map" element={<MapTransaction />} />
+        <Route path="/form/map/:id" element={<MapTransaction />} />
         <Route path="/myhistory" element={<MyHistoryPage />} />
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/detail/:id" element={<DetailPage />} />
